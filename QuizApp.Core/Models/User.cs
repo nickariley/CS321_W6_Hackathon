@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
+
 namespace QuizApp.Core.Models
 {
-    public class User : IEntity
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

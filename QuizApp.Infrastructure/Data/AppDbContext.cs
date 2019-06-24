@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using QuizApp.Core.Models;
 
 namespace QuizApp.Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
+        // NOTE: User DbSet is inherited from IdentityDbContext
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Topic> Topics { get; set; }
-        public DbSet<User> Users { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,12 +21,14 @@ namespace QuizApp.Infrastructure.Data
             optionsBuilder.UseSqlite("Data Source=../QuizApp.Infrastructure/quizapp.db");
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            ConfigureQuestionTopicRelationships(modelBuilder);
-            ConfigureQuizQuestionRelationships(modelBuilder);
+            base.OnModelCreating(builder);
 
-            SetupSeedData(modelBuilder);
+            ConfigureQuestionTopicRelationships(builder);
+            ConfigureQuizQuestionRelationships(builder);
+
+            SetupSeedData(builder);
         }
 
         private void ConfigureQuizQuestionRelationships(ModelBuilder modelBuilder)
