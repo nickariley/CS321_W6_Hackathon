@@ -1,0 +1,11 @@
+﻿
+
+// Infrastructure 
+1. Add the Microsoft.AspNetCore.Identity.EntityFrameworkCore package.
+1. Make AppDbContext inherit from IdentityDbContext<User> // where User is our user class
+1. Make sure OnModelCreating calls base constructor
+
+// Core
+1. Add the Microsoft.Extensions.Identity.Stores package.
+1. Make User model inherit from IdentityUser
+
