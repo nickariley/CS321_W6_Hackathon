@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace QuizApp.Core.Models
 {
-    public class Topic : IEntity
+    public class Topic : IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

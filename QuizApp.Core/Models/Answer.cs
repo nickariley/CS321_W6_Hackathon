@@ -1,7 +1,7 @@
 ﻿using System;
 namespace QuizApp.Core.Models
 {
-    public class Answer : IEntity
+    public class Answer : IEntity<int>
     {
         public int Id { get; set; }
         public string Text { get; set; }

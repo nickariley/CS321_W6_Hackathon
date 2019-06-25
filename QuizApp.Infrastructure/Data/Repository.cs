@@ -7,7 +7,7 @@ using QuizApp.Core.Services;
 
 namespace QuizApp.Infrastructure.Data
 {
-    public class Repository<T> : IRepository<T> where T : class, IEntity
+    public class Repository<T, TKey> : IRepository<T, TKey> where T : class, IEntity<TKey>
     {
         private readonly AppDbContext _dbContext;
         private DbSet<T> _dbSet => _dbContext.Set<T>();
@@ -24,7 +24,7 @@ namespace QuizApp.Infrastructure.Data
             _dbSet.Add(entity);
         }
 
-        public T Get(int id)
+        public T Get(TKey id)
         {
             return _dbSet.Find(id);
         }

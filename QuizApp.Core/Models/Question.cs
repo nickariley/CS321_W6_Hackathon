@@ -11,7 +11,7 @@ namespace QuizApp.Core.Models
         //Matching,
     }
 
-    public class Question : IEntity
+    public class Question : IEntity<int>
     {
         public int Id { get; set; }
         public QuestionType QuestionType { get; set; }

@@ -5,8 +5,8 @@ namespace QuizApp.Core.Services
 {
     public interface IUnitOfWork
     {
-        IRepository<Quiz> Quizzes { get; }
-        IRepository<Question> Questions { get; }
+        IRepository<Quiz, int> Quizzes { get; }
+        IRepository<Question, int> Questions { get; }
 
         /// <summary>
         /// Commits all changes

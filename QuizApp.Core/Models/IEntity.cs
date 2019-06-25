@@ -1,8 +1,8 @@
 ﻿using System;
 namespace QuizApp.Core.Models
 {
-    public interface IEntity
+    public interface IEntity<TKey>
     {
-        int Id { get; set; }
+        TKey Id { get; set; }
     }
 }

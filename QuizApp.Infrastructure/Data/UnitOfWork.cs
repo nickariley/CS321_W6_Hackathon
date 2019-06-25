@@ -11,11 +11,14 @@ namespace QuizApp.Infrastructure.Data
         private readonly AppDbContext _dbContext;
 
         #region Repositories
-        public IRepository<Quiz> Quizzes =>
-           new Repository<Quiz>(_dbContext); // TODO: inject?
+        public IRepository<Quiz, int> Quizzes =>
+           new Repository<Quiz, int>(_dbContext); // TODO: inject?
 
-        public IRepository<Question> Questions =>
-           new Repository<Question>(_dbContext);
+        public IRepository<Question, int> Questions =>
+           new Repository<Question, int>(_dbContext);
+
+        public IRepository<User, string> Users =>
+            new Repository<User, string>(_dbContext);
         #endregion
 
         public UnitOfWork(AppDbContext dbContext)
@@ -35,8 +38,9 @@ namespace QuizApp.Infrastructure.Data
 
         public void RejectChanges()
         {
-            foreach (var entry in _dbContext.ChangeTracker.Entries()
-                  .Where(e => e.State != EntityState.Unchanged))
+            var entries = _dbContext.ChangeTracker.Entries()
+                  .Where(e => e.State != EntityState.Unchanged);
+            foreach (var entry in entries)
             {
                 switch (entry.State)
                 {

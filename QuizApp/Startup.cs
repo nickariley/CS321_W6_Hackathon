@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QuizApp.Core.Models;
 using QuizApp.Infrastructure.Data;
 
 namespace QuizApp
@@ -22,6 +24,9 @@ namespace QuizApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>();
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -49,6 +54,7 @@ namespace QuizApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
