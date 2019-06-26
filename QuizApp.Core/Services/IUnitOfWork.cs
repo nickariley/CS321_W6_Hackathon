@@ -7,6 +7,7 @@ namespace QuizApp.Core.Services
     {
         IRepository<Quiz, int> Quizzes { get; }
         IRepository<Question, int> Questions { get; }
+        IRepository<User, string> Users { get; }
 
         /// <summary>
         /// Commits all changes

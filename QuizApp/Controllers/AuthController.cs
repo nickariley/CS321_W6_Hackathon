@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using QuizApp.ApiModels;
 using QuizApp.Core.Models;
 using QuizApp.Infrastructure.Data;
@@ -12,17 +18,19 @@ using QuizApp.Infrastructure.Data;
 
 namespace QuizApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IConfiguration _config;
 
-        public AppDbContext _dbContext { get; }
-
-        public AuthController(UserManager<User> userManager, AppDbContext dbContext)
+        public AuthController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config)
         {
             _userManager = userManager;
-            _dbContext = dbContext;
+            _signInManager = signInManager;
+            _config = config;
         }
 
         // GET: api/values
@@ -39,7 +47,25 @@ namespace QuizApp.Controllers
             return "value";
         }
 
-        // POST api/values
+        // POST api/auth/login
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody]LoginModel login)
+        {
+            IActionResult response = Unauthorized();
+            var user = await AuthenticateUserAsync(login.Email, login.Password);
+
+            if (user != null)
+            {
+                var tokenString = GenerateJSONWebToken(user);
+                response = Ok(new { token = tokenString });
+            }
+
+            return response;
+        }
+
+        // POST api/auth/register
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegistrationModel registration)
         {
@@ -52,7 +78,6 @@ namespace QuizApp.Controllers
             var result = await _userManager.CreateAsync(newUser, registration.Password);
             if (result.Succeeded)
             {
-                _dbContext.SaveChanges();
                 return Ok();
             }
             foreach (var error in result.Errors)
@@ -73,5 +98,46 @@ namespace QuizApp.Controllers
         public void Delete(int id)
         {
         }
+
+        private string GenerateJSONWebToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+            var claims = new Claim[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(new Claim[]
+            //    {
+            //        new Claim(JwtRegisteredClaimNames.Sub, user.Email)
+            //    }),
+            //    Issuer = _config["Jwt:Issuer"],
+            //    Audience = _config["Jwt:Issuer"],
+            //    Expires = DateTime.UtcNow.AddDays(7),
+            //    SigningCredentials = credentials
+            //};
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(7),
+                signingCredentials: credentials);
+            return tokenHandler.WriteToken(token);
+        }
+
+        private async Task<User> AuthenticateUserAsync(string userName, string password)
+        {
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user != null && await _userManager.CheckPasswordAsync(user, password))
+            {
+                return user;
+            }
+            return null;
+        }
+
     }
 }
