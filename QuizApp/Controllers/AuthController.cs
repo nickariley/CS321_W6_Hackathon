@@ -107,20 +107,7 @@ namespace QuizApp.Controllers
             var claims = new Claim[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-            //var tokenDescriptor = new SecurityTokenDescriptor
-            //{
-            //    Subject = new ClaimsIdentity(new Claim[]
-            //    {
-            //        new Claim(JwtRegisteredClaimNames.Sub, user.Email)
-            //    }),
-            //    Issuer = _config["Jwt:Issuer"],
-            //    Audience = _config["Jwt:Issuer"],
-            //    Expires = DateTime.UtcNow.AddDays(7),
-            //    SigningCredentials = credentials
-            //};
-            //var token = tokenHandler.CreateToken(tokenDescriptor);
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(7),
