@@ -47,23 +47,6 @@ namespace QuizApp.Controllers
             return "value";
         }
 
-        // POST api/auth/login
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]LoginModel login)
-        {
-            IActionResult response = Unauthorized();
-            var user = await AuthenticateUserAsync(login.Email, login.Password);
-
-            if (user != null)
-            {
-                var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString });
-            }
-
-            return response;
-        }
-
         // POST api/auth/register
         [AllowAnonymous]
         [HttpPost("register")]
@@ -87,16 +70,21 @@ namespace QuizApp.Controllers
             return BadRequest(ModelState);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // POST api/auth/login
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody]LoginModel login)
         {
-        }
+            IActionResult response = Unauthorized();
+            var user = await AuthenticateUserAsync(login.Email, login.Password);
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (user != null)
+            {
+                var tokenString = GenerateJSONWebToken(user);
+                response = Ok(new { token = tokenString });
+            }
+
+            return response;
         }
 
         private string GenerateJSONWebToken(User user)
@@ -117,7 +105,7 @@ namespace QuizApp.Controllers
 
         private async Task<User> AuthenticateUserAsync(string userName, string password)
         {
-
+            // retrieve the user by username and then check password
             var user = await _userManager.FindByNameAsync(userName);
             if (user != null && await _userManager.CheckPasswordAsync(user, password))
             {
