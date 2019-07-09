@@ -6,18 +6,25 @@ import Header from './Header';
 import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
 }));
 
 export default (props) => {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <CssBaseline />
-      <Header />
-      <main>
-        <Container>{props.children}</Container>
-      </main>
-      <Footer />
+      <div className={classes.root}>
+        <CssBaseline />
+        <Header />
+        <main>
+          <Container>{props.children}</Container>
+        </main>
+        <Footer />
+      </div>
     </React.Fragment>
   );
 };
