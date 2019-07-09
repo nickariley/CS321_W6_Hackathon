@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-  // const classes = useStyles();
   return (
     <div className={classes.heroContent}>
       <Container maxWidth="sm">

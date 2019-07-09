@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 //import { makeStyles } from '@material-ui/core/styles';
 import HeroUnit from './HeroUnit';
-import CardGrid from '../CardGrid';
+import CardGrid from './CardGrid';
 
 //const useStyles = makeStyles((theme) => ({}));
 
@@ -12,7 +12,7 @@ const Home = (props) => {
   return (
     <React.Fragment>
       <HeroUnit />
-      <CardGrid />
+      <CardGrid cards={[1,2,3,4]} />
     </React.Fragment>
   );
 };

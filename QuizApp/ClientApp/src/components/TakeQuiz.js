@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import StartQuiz from './StartQuiz';
 import EndQuiz from './EndQuiz';
 import ShowQuestion from './ShowQuestion';
+import Stepper from './Stepper';
 
 //import { makeStyles } from '@material-ui/core/styles';
 
@@ -36,13 +37,35 @@ const quiz = {
         },
       ],
     },
-  ],
+    {
+        id: 2,
+        prompt:
+          'Where do you configure services for dependency injection in an ASP.NET Core project?',
+        answers: [
+          {
+            id: 1,
+            content: 'Startup.Configure()',
+            isCorrect: true,
+          },
+          {
+            id: 1,
+            content: 'DependencyInjection.Configure()',
+            isCorrect: false,
+          },
+          {
+            id: 1,
+            content: 'Startup.ConfigureServices()',
+            isCorrect: false,
+          },
+        ],
+      },
+    ],
 };
 
 class TakeQuiz extends React.Component {
   state = {
     questionIndex: -1,
-    questions: [{},{},{}],
+    questions: quiz.questions,
   };
 
   isQuizNotStarted = () => {
@@ -76,16 +99,17 @@ class TakeQuiz extends React.Component {
   };
 
   render() {
-    const { questionIndex } = this.state;
+    const { questions, questionIndex } = this.state;
     console.log('questionIndex', questionIndex);
     //const classes = useStyles();
     return (
       <React.Fragment>
+          <Stepper items={questions}/>
         {this.isQuizNotStarted() ? (
           <StartQuiz onStartQuiz={this.handleStartQuiz} />
         ) : null}
         {this.isQuizInProgress() ? (
-          <ShowQuestion onNextQuestion={this.handleNextQuestion} />
+          <ShowQuestion question={questions[questionIndex]} onNextQuestion={this.handleNextQuestion} />
         ) : null}
         {this.isQuizCompleted() ? <EndQuiz /> : null}
       </React.Fragment>
