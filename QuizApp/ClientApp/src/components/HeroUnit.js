@@ -16,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default () => {
+export default ({
+  heading = 'Heading',
+  content = 'Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don&apos;t simply skip over it entirely.',
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.heroContent}>
@@ -28,12 +31,10 @@ export default () => {
           color="textPrimary"
           gutterBottom
         >
-          Album layout
+          {heading}
         </Typography>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          Something short and leading about the collection below—its contents,
-          the creator, etc. Make it short and sweet, but not too short so folks
-          don&apos;t simply skip over it entirely.
+          {content}
         </Typography>
         <div className={classes.heroButtons}>
           <Grid container spacing={2} justify="center">

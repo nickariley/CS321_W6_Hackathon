@@ -9,7 +9,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import ShowQuestion from './ShowQuestion';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     //maxWidth: 400,
     flexGrow: 1,
@@ -37,11 +37,11 @@ function Stepper({ items }) {
   const maxSteps = items.length;
 
   function handleNext() {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   }
 
   function handleBack() {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   }
 
   function handleStepChange(step) {
@@ -59,12 +59,14 @@ function Stepper({ items }) {
         onChangeIndex={handleStepChange}
         enableMouseEvents
       >
+        {/* items could be a list of components that are passed in */}
         {items.map((item, index) => (
           <div key={index}>
-            {Math.abs(activeStep - index) <= 2 ? (
-            //   <img className={classes.img} src={item.imgPath} alt={item.label} />
-            <ShowQuestion question={item} />
-            ) : null}
+            {Math.abs(activeStep - index) <= 2
+              ? //   <img className={classes.img} src={item.imgPath} alt={item.label} />
+                //   <ShowQuestion question={item} />
+                item
+              : null}
           </div>
         ))}
       </SwipeableViews>
@@ -74,14 +76,26 @@ function Stepper({ items }) {
         variant="text"
         activeStep={activeStep}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
             Next
-            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
           </Button>
         }
         backButton={
           <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
             Back
           </Button>
         }

@@ -13,7 +13,7 @@ const StartQuiz = (props) => {
   const { onStartQuiz } = props;
   return (
     <React.Fragment>
-        <HeroUnit  />
+        <HeroUnit heading="Start Quiz"  />
         <Button onClick={onStartQuiz}>Start</Button>
     </React.Fragment>
   );

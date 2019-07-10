@@ -102,9 +102,14 @@ class TakeQuiz extends React.Component {
     const { questions, questionIndex } = this.state;
     console.log('questionIndex', questionIndex);
     //const classes = useStyles();
+    const questionCards = [
+        <StartQuiz/>,
+        ...questions.map(q => <ShowQuestion question={q}/>),
+        <EndQuiz/>
+    ];
     return (
       <React.Fragment>
-          <Stepper items={questions}/>
+          <Stepper items={questionCards}/>
         {this.isQuizNotStarted() ? (
           <StartQuiz onStartQuiz={this.handleStartQuiz} />
         ) : null}

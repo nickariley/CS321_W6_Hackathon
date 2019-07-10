@@ -10,7 +10,7 @@ const EndQuiz = (props) => {
   //const classes = useStyles();
   return (
     <React.Fragment>
-        <HeroUnit  />
+        <HeroUnit heading="End Quiz" />
     </React.Fragment>
   );
 };
