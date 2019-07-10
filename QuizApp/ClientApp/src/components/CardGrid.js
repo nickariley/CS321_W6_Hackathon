@@ -12,15 +12,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({ cards = [] }) => {
+export default ({ cards = [], component = null }) => {
   const classes = useStyles();
+  const CardComponent = component;
   // const classes = useStyles();
   return (
     <Container className={classes.cardGrid} maxWidth="md">
       <Grid container spacing={4}>
-        {cards.map((card, index) => (
-          <Card key={index} {...card} />
-        ))}
+        {cards.map((card, index) => {
+          return CardComponent ? <CardComponent key={index} /> : <Card key={index} {...card} />;
+        })}
       </Grid>
     </Container>
   );
