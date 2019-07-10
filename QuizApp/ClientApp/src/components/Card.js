@@ -38,7 +38,7 @@ export default ({
           title="Image title"
         />
         <CardContent className={classes.cardContent}>
-          <Typography gutterBottom variant="h5" Component="h2">
+          <Typography gutterBottom variant="h5" component="h2">
             { heading }
           </Typography>
           <Typography>

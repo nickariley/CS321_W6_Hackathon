@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../store/Quiz';
+
 import StartQuiz from './StartQuiz';
 import EndQuiz from './EndQuiz';
 import ShowQuestion from './ShowQuestion';
@@ -38,28 +41,28 @@ const quiz = {
       ],
     },
     {
-        id: 2,
-        prompt:
-          'Where do you configure services for dependency injection in an ASP.NET Core project?',
-        answers: [
-          {
-            id: 1,
-            content: 'Startup.Configure()',
-            isCorrect: true,
-          },
-          {
-            id: 1,
-            content: 'DependencyInjection.Configure()',
-            isCorrect: false,
-          },
-          {
-            id: 1,
-            content: 'Startup.ConfigureServices()',
-            isCorrect: false,
-          },
-        ],
-      },
-    ],
+      id: 2,
+      prompt:
+        'Where do you configure services for dependency injection in an ASP.NET Core project?',
+      answers: [
+        {
+          id: 1,
+          content: 'Startup.Configure()',
+          isCorrect: true,
+        },
+        {
+          id: 1,
+          content: 'DependencyInjection.Configure()',
+          isCorrect: false,
+        },
+        {
+          id: 1,
+          content: 'Startup.ConfigureServices()',
+          isCorrect: false,
+        },
+      ],
+    },
+  ],
 };
 
 class TakeQuiz extends React.Component {
@@ -100,21 +103,24 @@ class TakeQuiz extends React.Component {
 
   render() {
     const { questions, questionIndex } = this.state;
-    console.log('questionIndex', questionIndex);
+    console.log('takequiz props', this.props);
     //const classes = useStyles();
     const questionCards = [
-        <StartQuiz/>,
-        ...questions.map(q => <ShowQuestion question={q}/>),
-        <EndQuiz/>
+      <StartQuiz />,
+      ...questions.map((q) => <ShowQuestion question={q} />),
+      <EndQuiz />,
     ];
     return (
       <React.Fragment>
-          <Stepper items={questionCards}/>
+        <Stepper items={questionCards} />
         {this.isQuizNotStarted() ? (
           <StartQuiz onStartQuiz={this.handleStartQuiz} />
         ) : null}
         {this.isQuizInProgress() ? (
-          <ShowQuestion question={questions[questionIndex]} onNextQuestion={this.handleNextQuestion} />
+          <ShowQuestion
+            question={questions[questionIndex]}
+            onNextQuestion={this.handleNextQuestion}
+          />
         ) : null}
         {this.isQuizCompleted() ? <EndQuiz /> : null}
       </React.Fragment>
@@ -122,4 +128,7 @@ class TakeQuiz extends React.Component {
   }
 }
 
-export default connect((state) => state)(TakeQuiz);
+export default connect(
+  (state) => state,
+  (dispatch) => bindActionCreators(actionCreators, dispatch)
+)(TakeQuiz);
