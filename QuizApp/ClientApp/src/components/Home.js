@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../store/Quiz';
+import { actionCreators } from '../store/Quizzes';
 
 //import { makeStyles } from '@material-ui/core/styles';
 import HeroUnit from './HeroUnit';
@@ -11,25 +11,33 @@ import { Button } from '@material-ui/core';
 
 //const useStyles = makeStyles((theme) => ({}));
 
-const Home = (props) => {
-  //const classes = useStyles();
+class Home extends React.Component {
 
-  const onClick = () => {
-    props.requestQuiz(1);
-  };
+  componentDidMount() {
+    this.fetchQuizzes()
+      .then(quizzes => {
+        this.setState({ quizzes })
+      });
+  }
 
-  return (
-    <React.Fragment>
-      <Button
-        onClick={onClick}
-      >
-        Test
-      </Button>
-      <HeroUnit />
-      <CardGrid cards={[1, 2, 3, 4]} component={QuizCard} />
-    </React.Fragment>
-  );
-};
+  fetchQuizzes = () => {
+    const { requestQuizzes } = this.props;
+    return requestQuizzes();
+  }
+
+  render() {
+    console.log('home props', this.props);
+    //const classes = useStyles();
+    const { quizzes } = this.props.quizzes;
+    return (
+      <React.Fragment>
+        <Button onClick={this.fetchQuizzes}>Test</Button>
+        <HeroUnit />
+        <CardGrid items={quizzes} component={QuizCard} />
+      </React.Fragment>
+    );
+  }
+}
 
 export default connect(
   (state) => state,

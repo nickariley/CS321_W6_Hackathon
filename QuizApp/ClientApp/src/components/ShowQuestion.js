@@ -39,13 +39,13 @@ const ShowQuestion = (props) => {
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
           {question.prompt}
         </Typography>
-        <CardGrid cards={answerCards} />
+        <CardGrid items={answerCards} />
       </Container>
     </div>
 
     // <React.Fragment>
     //     {question.prompt}
-    //     <CardGrid cards={answerCards} />
+    //     <CardGrid items={answerCards} />
     //     <Button onClick={onNextQuestion}>Next Question</Button>
     // </React.Fragment>
   );

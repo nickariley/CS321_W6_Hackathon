@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default ({
+  item = {},
   heading = 'A Heading',
   content = 'This is a media card. You can use this section to describe the content.',
 }) => {
@@ -59,12 +60,12 @@ export default ({
               <Badge /> 
             </Grid>
             <Grid item xs={8} sm={8} md={8}>
-              <Typography className={classes.heading} gutterBottom variant="h5" component="h2">{heading}</Typography>
+              <Typography className={classes.heading} gutterBottom variant="h5" component="h2">{item.title}</Typography>
             </Grid>
           </Grid>
           <Grid container spacing={4}>
             <Grid item xs={12} sm={12} md={12}>
-              <Typography>{content}</Typography>
+              <Typography>{item.description}</Typography>
             </Grid>
           </Grid>
 
