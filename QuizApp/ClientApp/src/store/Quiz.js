@@ -1,4 +1,4 @@
-import QuizApi from "../quizAPI";
+import QuizApi from "../QuizAPI";
 
 const requestQuiz = 'REQUEST_QUIZ';
 const receiveQuiz = 'RECEIVE_QUIZ';
