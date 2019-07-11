@@ -8,6 +8,5 @@ namespace QuizApp.Core.Services
     {
         Quiz Get(int id);
         IEnumerable<Quiz> GetAll();
-        Quiz Add(Quiz newQuiz);
     }
 }

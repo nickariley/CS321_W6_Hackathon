@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.ApiModels;
 using QuizApp.Core.Services;
@@ -114,14 +112,6 @@ public interface Foo
         [HttpGet()]
         public IEnumerable<QuizModel> Quizzes()
         {
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    DateFormatted = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //});
-
             //return _quizzes;
             var quizzes = _quizService.GetAll().ToList();
             return quizzes.ToApiModels();
@@ -130,13 +120,6 @@ public interface Foo
         [HttpGet("{id}")]
         public QuizModel Quizzes(int id)
         {
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    DateFormatted = DateTime.Now.AddDays(index + startDateIndex).ToString("d"),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //});
             //return _quizzes.FirstOrDefault(q => q.Id == id);
             var quiz = _quizService.Get(id);
             return quiz.ToApiModel();

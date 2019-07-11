@@ -9,22 +9,28 @@ namespace QuizApp.ApiModels
 	public static class QuestionMappingExtensions
 	{
 
-		public static QuestionModel ToApiModel(this Question Question)
+		public static QuestionModel ToApiModel(this Question item)
 		{
-			return new QuestionModel
-			{
-				Id = Question.Id,
-                QuestionType = Question.QuestionType,
-                Prompt = Question.Prompt,
-                Answers = Question.Answers?.ToApiModels().ToList()
-			};
-		}
+            // TODO: map domain properties to equivalent apiModel properties
+            return new QuestionModel
+            {
+                Id = item.Id,
+                QuestionType = item.QuestionType,
+                Prompt = item.Prompt,
+                Answers = item.Answers?.ToApiModels().ToList()
+            };
+        }
 
-		public static Question ToDomainModel(this QuestionModel QuestionModel)
+		public static Question ToDomainModel(this QuestionModel item)
 		{
+            // TODO: map api model props to equivalent domain props
 			return new Question
 			{
-				Id = QuestionModel.Id,
+				Id = item.Id,
+                QuestionType = item.QuestionType,
+                Prompt = item.Prompt,
+                Answers = item.Answers?.ToDomainModels().ToList(),
+                // HINT: you can ignore QuizQuestions
 			};
 		}
 

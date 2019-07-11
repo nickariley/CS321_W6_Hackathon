@@ -13,13 +13,6 @@ namespace QuizApp.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Quiz Add(Quiz newQuiz)
-        {
-            _unitOfWork.Quizzes.Add(newQuiz);
-            _unitOfWork.SaveChanges();
-            return newQuiz;
-        }
-
         public Quiz Get(int id)
         {
             var quiz = _unitOfWork.Quizzes.Get(id);

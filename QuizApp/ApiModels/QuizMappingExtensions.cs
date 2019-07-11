@@ -12,25 +12,32 @@ namespace QuizApp.ApiModels
 		{
             return new QuizModel
             {
+                // TODO: Map domain properties to equivalent ApiModel properties
                 Id = quiz.Id,
                 Title = quiz.Title,
                 Description = quiz.Description,
                 Instructions = quiz.Instructions,
                 Questions = quiz.QuizQuestions?.Select(qq => qq.Question).ToApiModels().ToList()
-
-              // .ToApiModels()
-			};
+                // HINT: Mapping Questions from domain to api model is trickier than what you've
+                // seen before due to the intermediate QuizQuestion entity. Use the following:
+                // Questions = quiz.QuizQuestions?
+                //    .Select(qq => qq.Question)
+                //    .ToApiModels()
+                //    .ToList()
+            };
 		}
 
 		public static Quiz ToDomainModel(this QuizModel quizModel)
 		{
 			return new Quiz
 			{
-				Id = quizModel.Id,
+                // OPTIONAL TODO: Map domain properties to equivalent ApiModel properties
+                // THIS IS OPTIONAL. It isn't used in this app since we don't
+                // allow creation of quizzes.
+                Id = quizModel.Id,
 				Title = quizModel.Title,
                 Description = quizModel.Description,
                 Instructions = quizModel.Instructions,
-                // QuizQuestions = TODO
 			};
 		}
 
