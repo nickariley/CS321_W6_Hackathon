@@ -12,7 +12,7 @@ namespace QuizApp.Infrastructure.Data
 
         #region Repositories
         public IRepository<Quiz, int> Quizzes =>
-           new Repository<Quiz, int>(_dbContext); // TODO: inject?
+           new QuizRepository(_dbContext); // TODO: inject?
 
         public IRepository<Question, int> Questions =>
            new Repository<Question, int>(_dbContext);

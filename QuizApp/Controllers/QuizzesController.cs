@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.ApiModels;
+using QuizApp.Core.Services;
 
 namespace QuizApp.Controllers
 {
@@ -23,6 +24,7 @@ namespace QuizApp.Controllers
                     new QuestionModel
                     {
                         Id = 1,
+                        QuestionType = "chooseOne",
                         Prompt = "Which of the items below is a correct example of an Interface in C#?",
                         Answers = new List<AnswerModel>
                         {
@@ -70,6 +72,7 @@ public interface Foo
                     new QuestionModel
                     {
                         Id = 2,
+                        QuestionType = "chooseOne",
                         Prompt = "Where do you configure services for dependency injection in an ASP.NET Core project?",
                         Answers = new List<AnswerModel>
                         {
@@ -101,6 +104,12 @@ public interface Foo
                 Title = "An Empty Quiz"
             }
         };
+        private readonly IQuizService _quizService;
+
+        public QuizzesController(IQuizService quizService)
+        {
+            _quizService = quizService;
+        }
 
         [HttpGet()]
         public IEnumerable<QuizModel> Quizzes()
@@ -112,7 +121,10 @@ public interface Foo
             //    TemperatureC = rng.Next(-20, 55),
             //    Summary = Summaries[rng.Next(Summaries.Length)]
             //});
-            return _quizzes;
+
+            //return _quizzes;
+            var quizzes = _quizService.GetAll().ToList();
+            return quizzes.ToApiModels();
         }
 
         [HttpGet("{id}")]
@@ -125,7 +137,9 @@ public interface Foo
             //    TemperatureC = rng.Next(-20, 55),
             //    Summary = Summaries[rng.Next(Summaries.Length)]
             //});
-            return _quizzes.FirstOrDefault(q => q.Id == id);
+            //return _quizzes.FirstOrDefault(q => q.Id == id);
+            var quiz = _quizService.Get(id);
+            return quiz.ToApiModel();
         }
 
     }

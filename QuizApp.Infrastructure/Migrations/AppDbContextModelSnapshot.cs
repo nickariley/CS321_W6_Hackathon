@@ -128,11 +128,11 @@ namespace QuizApp.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Content");
+
                     b.Property<bool>("IsCorrect");
 
                     b.Property<int>("QuestionId");
-
-                    b.Property<string>("Text");
 
                     b.HasKey("Id");
 
@@ -144,16 +144,44 @@ namespace QuizApp.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            IsCorrect = false,
-                            QuestionId = 1,
-                            Text = "Foo"
+                            Content = @"
+```csharp
+public interface Foo
+{
+    void bar();
+}
+```
+",
+                            IsCorrect = true,
+                            QuestionId = 1
                         },
                         new
                         {
                             Id = 2,
-                            IsCorrect = true,
-                            QuestionId = 1,
-                            Text = "Bar"
+                            Content = @"
+```csharp
+public int Foo
+{
+    void bar();
+}
+```
+",
+                            IsCorrect = false,
+                            QuestionId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = @"
+```csharp
+public interface Foo
+[
+    void bar();
+]
+```
+",
+                            IsCorrect = false,
+                            QuestionId = 1
                         });
                 });
 
@@ -162,9 +190,9 @@ namespace QuizApp.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("QuestionType");
+                    b.Property<string>("Prompt");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("QuestionType");
 
                     b.HasKey("Id");
 
@@ -174,8 +202,8 @@ namespace QuizApp.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            QuestionType = 0,
-                            Text = "Question1"
+                            Prompt = "Which of the items below is a correct example of an Interface in C#?",
+                            QuestionType = "chooseOne"
                         });
                 });
 
@@ -204,6 +232,10 @@ namespace QuizApp.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Instructions");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -214,7 +246,9 @@ namespace QuizApp.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Title = "Quiz 1"
+                            Description = "Some markdown content that describes the quiz.",
+                            Instructions = "Some more markdown content that can provide instructions, tips, etc.",
+                            Title = "A Super Tough Quiz"
                         });
                 });
 

@@ -19,22 +19,22 @@ namespace QuizApp.Infrastructure.Data
             _dbContext = dbContext;
         }
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             _dbSet.Add(entity);
         }
 
-        public T Get(TKey id)
+        public virtual T Get(TKey id)
         {
             return _dbSet.Find(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return _dbSet.ToList();
         }
 
-        public T Update(T updatedItem)
+        public virtual T Update(T updatedItem)
         {
             var existingItem = _dbSet.Find(updatedItem.Id);
             if (existingItem == null) return null;
@@ -45,7 +45,7 @@ namespace QuizApp.Infrastructure.Data
             return existingItem;
         }
 
-        public void Remove(T entity)
+        public virtual void Remove(T entity)
         {
             _dbSet.Remove(entity);
         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuizApp.Infrastructure.Migrations
 {
-    public partial class AddIdentity : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,8 +53,8 @@ namespace QuizApp.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    QuestionType = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(nullable: true)
+                    QuestionType = table.Column<string>(nullable: true),
+                    Prompt = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,7 +67,9 @@ namespace QuizApp.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Instructions = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,7 +201,7 @@ namespace QuizApp.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Text = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     IsCorrect = table.Column<bool>(nullable: false),
                     QuestionId = table.Column<int>(nullable: false)
                 },
@@ -264,13 +266,13 @@ namespace QuizApp.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "Id", "QuestionType", "Text" },
-                values: new object[] { 1, 0, "Question1" });
+                columns: new[] { "Id", "Prompt", "QuestionType" },
+                values: new object[] { 1, "Which of the items below is a correct example of an Interface in C#?", "chooseOne" });
 
             migrationBuilder.InsertData(
                 table: "Quizzes",
-                columns: new[] { "Id", "Title" },
-                values: new object[] { 1, "Quiz 1" });
+                columns: new[] { "Id", "Description", "Instructions", "Title" },
+                values: new object[] { 1, "Some markdown content that describes the quiz.", "Some more markdown content that can provide instructions, tips, etc.", "A Super Tough Quiz" });
 
             migrationBuilder.InsertData(
                 table: "Topics",
@@ -279,13 +281,39 @@ namespace QuizApp.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Answer",
-                columns: new[] { "Id", "IsCorrect", "QuestionId", "Text" },
-                values: new object[] { 1, false, 1, "Foo" });
+                columns: new[] { "Id", "Content", "IsCorrect", "QuestionId" },
+                values: new object[] { 1, @"
+```csharp
+public interface Foo
+{
+    void bar();
+}
+```
+", true, 1 });
 
             migrationBuilder.InsertData(
                 table: "Answer",
-                columns: new[] { "Id", "IsCorrect", "QuestionId", "Text" },
-                values: new object[] { 2, true, 1, "Bar" });
+                columns: new[] { "Id", "Content", "IsCorrect", "QuestionId" },
+                values: new object[] { 2, @"
+```csharp
+public int Foo
+{
+    void bar();
+}
+```
+", false, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Answer",
+                columns: new[] { "Id", "Content", "IsCorrect", "QuestionId" },
+                values: new object[] { 3, @"
+```csharp
+public interface Foo
+[
+    void bar();
+]
+```
+", false, 1 });
 
             migrationBuilder.InsertData(
                 table: "QuestionTopic",

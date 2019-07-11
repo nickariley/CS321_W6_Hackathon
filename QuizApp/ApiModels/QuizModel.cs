@@ -9,6 +9,6 @@ namespace QuizApp.ApiModels
         public string Title { get; set; }
         public string Description { get; set; }
         public string Instructions { get; set; }
-        public ICollection<QuestionModel> Questions { get; set; }
+        public IEnumerable<QuestionModel> Questions { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using QuizApp.Core.Models;
+using QuizApp.Core.Services;
 using QuizApp.Infrastructure.Data;
 
 namespace QuizApp
@@ -27,6 +28,8 @@ namespace QuizApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IQuizService, QuizService>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();

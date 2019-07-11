@@ -12,7 +12,7 @@ namespace QuizApp.Infrastructure.Data
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Topic> Topics { get; set; }
-        
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,15 +36,15 @@ namespace QuizApp.Infrastructure.Data
             modelBuilder.Entity<QuizQuestion>()
                 .HasKey(qt => new { qt.QuizId, qt.QuestionId });
 
-            modelBuilder.Entity<QuizQuestion>()
-                .HasOne(qt => qt.Quiz)
-                .WithMany(q => q.QuizQuestions)
-                .HasForeignKey(qt => qt.QuizId);
+            //modelBuilder.Entity<QuizQuestion>()
+            //    .HasOne(qt => qt.Quiz)
+            //    .WithMany(q => q.QuizQuestions)
+            //    .HasForeignKey(qt => qt.QuizId);
 
-            modelBuilder.Entity<QuizQuestion>()
-                .HasOne(qt => qt.Question)
-                .WithMany(q => q.QuizQuestions)
-                .HasForeignKey(qt => qt.QuestionId);
+            //modelBuilder.Entity<QuizQuestion>()
+            //    .HasOne(qt => qt.Question)
+            //    .WithMany(q => q.QuizQuestions)
+            //    .HasForeignKey(qt => qt.QuestionId);
         }
 
         private void ConfigureQuestionTopicRelationships(ModelBuilder modelBuilder)
@@ -52,15 +52,15 @@ namespace QuizApp.Infrastructure.Data
             modelBuilder.Entity<QuestionTopic>()
                 .HasKey(qt => new { qt.QuestionId, qt.TopicId });
 
-            modelBuilder.Entity<QuestionTopic>()
-                .HasOne(qt => qt.Question)
-                .WithMany(q => q.QuestionTopics)
-                .HasForeignKey(qt => qt.QuestionId);
+            //modelBuilder.Entity<QuestionTopic>()
+            //    .HasOne(qt => qt.Question)
+            //    .WithMany(q => q.QuestionTopics)
+            //    .HasForeignKey(qt => qt.QuestionId);
 
-            modelBuilder.Entity<QuestionTopic>()
-                .HasOne(qt => qt.Topic)
-                .WithMany(q => q.QuestionTopics)
-                .HasForeignKey(qt => qt.TopicId);
+            //modelBuilder.Entity<QuestionTopic>()
+            //    .HasOne(qt => qt.Topic)
+            //    .WithMany(q => q.QuestionTopics)
+            //    .HasForeignKey(qt => qt.TopicId);
         }
 
 
@@ -79,7 +79,9 @@ namespace QuizApp.Infrastructure.Data
                 new Quiz
                 {
                     Id = 1,
-                    Title = "Quiz 1"
+                    Title = "A Super Tough Quiz",
+                    Description = "Some markdown content that describes the quiz.",
+                    Instructions = "Some more markdown content that can provide instructions, tips, etc.",
                 });
 
             // questions
@@ -87,8 +89,9 @@ namespace QuizApp.Infrastructure.Data
                 new Question
                 {
                     Id = 1,
-                    Text = "Question1",
-                    Answers = new List<Answer>()
+                    QuestionType = "chooseOne",
+                    Prompt = "Which of the items below is a correct example of an Interface in C#?",
+                    //Answers = new List<Answer>()
                 });
 
             // answers
@@ -96,16 +99,45 @@ namespace QuizApp.Infrastructure.Data
                 new Answer
                 {
                     Id = 1,
-                    Text = "Foo",
-                    IsCorrect = false,
-                    QuestionId = 1
+                    QuestionId = 1,
+                    IsCorrect = true,
+                    Content = @"
+```csharp
+public interface Foo
+{
+    void bar();
+}
+```
+",
                 },
                 new Answer
                 {
+                    QuestionId = 1,
                     Id = 2,
-                    Text = "Bar",
-                    IsCorrect = true,
-                    QuestionId = 1
+                    IsCorrect = false,
+                    Content = @"
+```csharp
+public int Foo
+{
+    void bar();
+}
+```
+",
+                },
+
+                    new Answer
+                    {
+                        QuestionId = 1,
+                        Id = 3,
+                        IsCorrect = false,
+                        Content = @"
+```csharp
+public interface Foo
+[
+    void bar();
+]
+```
+",
                 });
 
             modelBuilder.Entity<QuizQuestion>().HasData(
