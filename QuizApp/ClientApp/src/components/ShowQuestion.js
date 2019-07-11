@@ -18,10 +18,18 @@ const useStyles = makeStyles((theme) => ({
 
 const ShowQuestion = ({ question }) => {
   const classes = useStyles();
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
 
   function handleAnswerSelected(answer) {
-    setSelectedAnswer(answer);
+    if (question.type === 'multiChoice') {
+      if (selectedAnswers.includes(answer)) {
+        setSelectedAnswers(selectedAnswers.filter((a) => a.id !== answer.id));
+      } else {
+        setSelectedAnswers([...selectedAnswers, answer]);
+      }
+    } else {
+      setSelectedAnswers([answer]);
+    }
   }
 
   return (
@@ -35,7 +43,7 @@ const ShowQuestion = ({ question }) => {
             <AnswerCard
               answer={a}
               key={i}
-              selected={selectedAnswer && a.id === selectedAnswer.id}
+              selected={selectedAnswers.includes(a)}
               onSelected={handleAnswerSelected}
             />
           ))}
