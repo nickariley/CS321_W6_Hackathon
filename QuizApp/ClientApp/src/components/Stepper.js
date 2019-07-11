@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
-import ShowQuestion from './ShowQuestion';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,33 +29,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Stepper({ items }) {
+function Stepper({ items, activeStep = 0, onNext, onBack }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = items.length;
-
-  function handleNext() {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  }
-
-  function handleBack() {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  }
-
-  function handleStepChange(step) {
-    setActiveStep(step);
-  }
 
   return (
     <div className={classes.root}>
-      <Paper square elevation={0} className={classes.header}>
+      {/* <Paper square elevation={0} className={classes.header}>
         <Typography>{items[activeStep].label}</Typography>
-      </Paper>
+      </Paper> */}
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={activeStep}
-        onChangeIndex={handleStepChange}
+        //onChangeIndex={handleStepChange}
         enableMouseEvents
       >
         {/* items could be a list of components that are passed in */}
@@ -78,7 +64,7 @@ function Stepper({ items }) {
         nextButton={
           <Button
             size="small"
-            onClick={handleNext}
+            onClick={onNext}
             disabled={activeStep === maxSteps - 1}
           >
             Next
@@ -90,7 +76,11 @@ function Stepper({ items }) {
           </Button>
         }
         backButton={
-          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          <Button
+            size="small"
+            onClick={onBack}
+            disabled={activeStep === 0}
+          >
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (

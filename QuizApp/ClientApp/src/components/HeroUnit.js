@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
 export default ({
   heading = 'Heading',
   content = 'Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don&apos;t simply skip over it entirely.',
+  primaryButtonText = 'Main call to action',
+  secondaryButtonText = 'Secondary action',
+  primaryButtonAction = null,
+  secondaryButtonAction = null
 }) => {
   const classes = useStyles();
   return (
@@ -39,13 +43,13 @@ export default ({
         <div className={classes.heroButtons}>
           <Grid container spacing={2} justify="center">
             <Grid item>
-              <Button variant="contained" color="primary">
-                Main call to action
+              <Button variant="contained" color="primary" onClick={primaryButtonAction}>
+                {primaryButtonText}
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="outlined" color="primary">
-                Secondary action
+              <Button variant="outlined" color="primary" onClick={secondaryButtonAction}>
+                {secondaryButtonText}
               </Button>
             </Grid>
           </Grid>

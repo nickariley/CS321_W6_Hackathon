@@ -1,16 +1,21 @@
 import React from 'react';
 import HeroUnit from './HeroUnit';
-import { Button } from '@material-ui/core';
 
 const StartQuiz = (props) => {
-  const { onStartQuiz, quiz } = props;
+  const { quiz, onStart, onCancel } = props;
   if (!quiz) return null;
 
   console.log('quiz', quiz);
   return (
     <React.Fragment>
-        <HeroUnit heading={quiz.title}  />
-        <Button onClick={onStartQuiz}>Start</Button>
+      <HeroUnit
+        heading={quiz.title}
+        content={quiz.description}
+        primaryButtonText="Start"
+        primaryButtonAction={onStart}
+        secondaryButtonText="Go Back"
+        secondaryButtonAction={onCancel}
+      />
     </React.Fragment>
   );
 };

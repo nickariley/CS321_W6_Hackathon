@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../store/Quiz';
+import { withRouter } from 'react-router-dom';
 
 import StartQuiz from './StartQuiz';
 import EndQuiz from './EndQuiz';
@@ -10,7 +11,7 @@ import Stepper from './Stepper';
 
 class TakeQuiz extends React.Component {
   state = {
-    questionIndex: -1,
+    questionIndex: 0,
   };
 
   componentDidMount() {
@@ -51,6 +52,10 @@ class TakeQuiz extends React.Component {
     });
   };
 
+  handleCancelQuiz = () => {
+    this.props.history.goBack();
+  };
+
   handleNextQuestion = () => {
     const { questionIndex } = this.state;
     this.setState({
@@ -58,29 +63,35 @@ class TakeQuiz extends React.Component {
     });
   };
 
+  handlePrevQuestion = () => {
+    const { questionIndex } = this.state;
+    this.setState({
+      questionIndex: questionIndex - 1,
+    });
+  };
+
   render() {
-    //const { questionIndex } = this.state;
+    const { questionIndex } = this.state;
     const { quiz } = this.props;
     const questions = this.getQuestions();
     //const classes = useStyles();
     const questionCards = [
-      <StartQuiz quiz={quiz} />,
+      <StartQuiz
+        quiz={quiz}
+        onStart={this.handleStartQuiz}
+        onCancel={this.handleCancelQuiz}
+      />,
       ...questions.map((q) => <ShowQuestion question={q} />),
-      <EndQuiz  quiz={quiz} />,
+      <EndQuiz quiz={quiz} />,
     ];
     return (
       <React.Fragment>
-        <Stepper items={questionCards} />
-        {/* {this.isQuizNotStarted() ? (
-          <StartQuiz onStartQuiz={this.handleStartQuiz} />
-        ) : null}
-        {this.isQuizInProgress() ? (
-          <ShowQuestion
-            question={questions[questionIndex]}
-            onNextQuestion={this.handleNextQuestion}
-          />
-        ) : null}
-        {this.isQuizCompleted() ? <EndQuiz /> : null} */}
+        <Stepper
+          items={questionCards}
+          activeStep={questionIndex}
+          onNext={this.handleNextQuestion}
+          onBack={this.handlePrevQuestion}
+        />
       </React.Fragment>
     );
   }
@@ -89,4 +100,4 @@ class TakeQuiz extends React.Component {
 export default connect(
   (state) => state.quiz,
   (dispatch) => bindActionCreators(actionCreators, dispatch)
-)(TakeQuiz);
+)(withRouter(TakeQuiz));
