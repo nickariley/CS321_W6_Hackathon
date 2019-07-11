@@ -4,8 +4,6 @@ import HeroUnit from './HeroUnit';
 const StartQuiz = (props) => {
   const { quiz, onStart, onCancel } = props;
   if (!quiz) return null;
-
-  console.log('quiz', quiz);
   return (
     <React.Fragment>
       <HeroUnit
