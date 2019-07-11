@@ -17,7 +17,7 @@ export default ({ items = [], component = null }) => {
   const CardComponent = component;
   // const classes = useStyles();
   return (
-    <Container className={classes.cardGrid} maxWidth="md">
+    <Container className={classes.cardGrid} maxWidth="lg">
       <Grid container spacing={4}>
         {items.map((item, index) => {
           return CardComponent ? <CardComponent key={index} item={item} /> : <Card key={index} {...item} />;

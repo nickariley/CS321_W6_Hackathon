@@ -1,22 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import HeroUnit from './HeroUnit';
 import { Button } from '@material-ui/core';
 
-//import { makeStyles } from '@material-ui/core/styles';
-
-//const useStyles = makeStyles((theme) => ({}));
-
 const StartQuiz = (props) => {
-  //const classes = useStyles();
-  console.log('props', props);
-  const { onStartQuiz } = props;
+  const { onStartQuiz, quiz } = props;
+  if (!quiz) return null;
+
+  console.log('quiz', quiz);
   return (
     <React.Fragment>
-        <HeroUnit heading="Start Quiz"  />
+        <HeroUnit heading={quiz.title}  />
         <Button onClick={onStartQuiz}>Start</Button>
     </React.Fragment>
   );
 };
 
-export default connect(state => state)(StartQuiz);
+export default StartQuiz;

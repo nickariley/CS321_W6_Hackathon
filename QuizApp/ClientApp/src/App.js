@@ -10,7 +10,7 @@ export default () => {
   return (
     <Layout>
       <Route exact path="/" component={Home} />
-      <Route exact path="/take-quiz" component={TakeQuiz} />
+      <Route exact path="/take-quiz/:quizId" component={TakeQuiz} />
       <Route path="/counter" component={Counter} />
       <Route path="/fetch-data/:startDateIndex?" component={FetchData} />
     </Layout>
