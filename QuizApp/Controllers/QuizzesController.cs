@@ -29,19 +29,40 @@ namespace QuizApp.Controllers
                             new AnswerModel
                             {
                                 Id = 1,
-                                Content = "public interface Foo { void bar(); }",
+                                Content = @"
+```csharp
+public interface Foo
+{
+    void bar();
+}
+```
+",
                                 IsCorrect = true
                             },
                             new AnswerModel
                             {
                                 Id = 2,
-                                Content = "public int Foo { void bar(); }",
+                                Content = @"
+```csharp
+public int Foo
+{
+    void bar();
+}
+```
+",
                                 IsCorrect = false
                             },
                             new AnswerModel
                             {
                                 Id = 3,
-                                Content = "public interface Foo [ void bar(); ]",
+                                Content = @"
+```csharp
+public interface Foo
+[
+    void bar();
+]
+```
+",
                                 IsCorrect = false
                             }
                         }

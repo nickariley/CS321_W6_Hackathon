@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 import configureStore from './store/configureStore';
+import { MarkdownProvider } from 'react-markdown-tree';
+import markdownConfig from 'react-markdown-tree-config-default';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -21,9 +23,12 @@ const rootElement = document.getElementById('root');
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App />
+      <MarkdownProvider config={markdownConfig}>
+        <App />
+      </MarkdownProvider>
     </ConnectedRouter>
   </Provider>,
-  rootElement);
+  rootElement
+);
 
 registerServiceWorker();
