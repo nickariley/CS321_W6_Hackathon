@@ -28,7 +28,6 @@ export default () => {
   return (
     <AppBar position="relative">
     <Toolbar>
-      {/* <CameraIcon className={classes.icon} /> */}
       <QuestionAnswerIcon className={classes.icon} />
       <Typography
         variant="h6"

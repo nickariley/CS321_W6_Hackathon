@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actionCreators } from '../store/Questions';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -21,6 +21,7 @@ import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import QuestionIcon from '@material-ui/icons/Help';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,11 +63,14 @@ const QuestionList = ({ questions, requestQuestions }) => {
           <List dense={false}>
             {questions.map((q) => (
               <ListItem>
-                <ListItemAvatar>
+                {/* <ListItemAvatar>
                   <Avatar>
-                    <FolderIcon />
+                    <QuestionIcon />
                   </Avatar>
-                </ListItemAvatar>
+                </ListItemAvatar> */}
+                <ListItemIcon>
+                  <QuestionIcon />
+                </ListItemIcon>
                 <ListItemText
                   primary={q.prompt}
                   secondary={'C#, ASP.NET Core'}

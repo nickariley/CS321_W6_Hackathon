@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Header from './Header';
-import Footer from './Footer';
+// import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +23,7 @@ export default (props) => {
         <main>
           <Container>{props.children}</Container>
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </React.Fragment>
   );
