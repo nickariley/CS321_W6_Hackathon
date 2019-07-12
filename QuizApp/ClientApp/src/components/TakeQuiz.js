@@ -66,7 +66,7 @@ class TakeQuiz extends React.Component {
 
   render() {
     console.log(this.state.answers);
-    const { questionIndex } = this.state;
+    const { questionIndex, answers } = this.state;
     const { quiz } = this.props;
     const questions = this.getQuestions();
     const questionCards = [
@@ -82,7 +82,7 @@ class TakeQuiz extends React.Component {
           onSubmitted={this.handleQuestionSubmitted}
         />
       )),
-      <EndQuiz quiz={quiz} />,
+      <EndQuiz quiz={quiz} answers={answers} />,
     ];
     return (
       <React.Fragment>
