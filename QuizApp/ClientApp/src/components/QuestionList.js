@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actionCreators } from '../store/Questions';
+import { Link } from 'react-router-dom'
 
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -75,6 +76,8 @@ const QuestionList = ({ questions, requestQuestions }) => {
                     edge="end"
                     aria-label="Delete"
                     className={classes.button}
+                    component={Link}
+                    to={`/edit-question/${q.id}`}
                   >
                     <EditIcon />
                   </IconButton>

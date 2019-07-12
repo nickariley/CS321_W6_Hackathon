@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
     title: {
       flexGrow: 1,
     },
+    button: {
+      "&:hover": {
+        color: 'inherit'
+      }
+    }
   }));
   
 export default () => {
@@ -32,7 +38,9 @@ export default () => {
       >
         ACA Quiz
       </Typography>
-      <Button color="inherit">Login</Button>
+      <Button className={classes.button} color="inherit" component={Link} to="/">Quizzes</Button>
+      <Button className={classes.button} color="inherit" component={Link} to="/questions">Questions</Button>
+      <Button className={classes.button} color="inherit">Login</Button>
     </Toolbar>
   </AppBar>
 );
