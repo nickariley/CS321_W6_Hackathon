@@ -1,17 +1,20 @@
 import quiz from './sampleQuiz';
 
-const fetchJson = (uri, options) => {
-    return fetch(uri, options)
-    .then(data => data.json());
+const fetchJson = async (uri, options) => {
+    const response = await fetch(uri, options);
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response.json();
 }
 
 class QuizApi {
 
     static getQuestions() {
-        // const uri = `api/questions`;
-        // const options = {};
-        // return fetchJson(uri, options);
-        return Promise.resolve(quiz.questions);
+        const uri = `api/questions`;
+        const options = {};
+        return fetchJson(uri, options);
+        //return Promise.resolve(quiz.questions);
     }
 
     static getQuizzes() {

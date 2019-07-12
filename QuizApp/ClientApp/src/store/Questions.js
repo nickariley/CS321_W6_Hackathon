@@ -1,4 +1,5 @@
-import QuizApi from "../QuizAPI";
+import QuizApi from '../QuizAPI';
+import sampleQuiz from '../sampleQuiz';
 
 const requestQuestions = 'REQUEST_QUESTIONS';
 const receiveQuestions = 'RECEIVE_QUESTIONS';
@@ -8,10 +9,13 @@ export const actionCreators = {
   requestQuestions: () => async (dispatch, getStatie) => {
     dispatch({ type: requestQuestions });
 
-    const questions = await QuizApi.getQuestions();
-
-    dispatch({ type: receiveQuestions, questions });
-  }
+    try {
+      const questions = await QuizApi.getQuestions();
+      dispatch({ type: receiveQuestions, questions });
+    } catch (error) {
+      dispatch({ type: receiveQuestions, questions: sampleQuiz.questions, error: "Unable to fetch questions. Using sample data." });
+    }
+  },
 };
 
 export const reducer = (state, action) => {
@@ -20,7 +24,7 @@ export const reducer = (state, action) => {
   if (action.type === requestQuestions) {
     return {
       ...state,
-      isLoading: true
+      isLoading: true,
     };
   }
 
@@ -28,7 +32,8 @@ export const reducer = (state, action) => {
     return {
       ...state,
       questions: action.questions,
-      isLoading: false
+      isLoading: false,
+      error: action.error
     };
   }
 
