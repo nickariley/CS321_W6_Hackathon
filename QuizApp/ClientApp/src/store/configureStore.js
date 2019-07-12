@@ -5,13 +5,16 @@ import * as Counter from './Counter';
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Quiz from './Quiz';
 import * as Quizzes from './Quizzes';
+import * as Questions from './Questions';
+
 
 export default function configureStore (history, initialState) {
   const reducers = {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer,
     quiz: Quiz.reducer,
-    quizzes: Quizzes.reducer
+    quizzes: Quizzes.reducer,
+    questions: Questions.reducer
   };
 
   const middleware = [
