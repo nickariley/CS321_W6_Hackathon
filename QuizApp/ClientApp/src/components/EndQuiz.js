@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import HeroUnit from './HeroUnit';
 
 const EndQuiz = ({ quiz, answers }) => {
-
   function getNumberCorrect() {
     if (!quiz || !quiz.questions) return 0;
     return quiz.questions.reduce((numCorrect, q) => {
@@ -19,11 +18,14 @@ const EndQuiz = ({ quiz, answers }) => {
   const numQuestions = quiz && quiz.questions ? quiz.questions.length : 0;
   const content = `You got ${numCorrect} out of ${numQuestions} correct.`;
 
-  console.log(numCorrect, numQuestions, content);
-
   return (
     <React.Fragment>
-      <HeroUnit heading="All Done!" content={content} />
+      <HeroUnit
+        heading="All Done!"
+        content={content}
+        primaryButtonText="Try Again"
+        secondaryButtonText="Find Another Quiz"
+      />
     </React.Fragment>
   );
 };

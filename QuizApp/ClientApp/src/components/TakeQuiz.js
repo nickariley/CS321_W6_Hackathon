@@ -55,7 +55,6 @@ class TakeQuiz extends React.Component {
   };
 
   handleQuestionSubmitted = (questionId, selectedAnswers) => {
-    console.log(questionId, selectedAnswers);
     this.setState({
       answers: {
         ...this.state.answers,
@@ -65,7 +64,6 @@ class TakeQuiz extends React.Component {
   };
 
   render() {
-    console.log(this.state.answers);
     const { questionIndex, answers } = this.state;
     const { quiz } = this.props;
     const questions = this.getQuestions();

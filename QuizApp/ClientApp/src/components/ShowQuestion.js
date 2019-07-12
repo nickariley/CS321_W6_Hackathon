@@ -83,7 +83,7 @@ const ShowQuestion = ({ question, onNext, onSubmitted }) => {
           </Grid>
           <Grid container spacing={2} justify="center">
             <Grid item>
-              <Link to={`/`}>Cancel</Link>
+              <Link to={`/`}>Cancel Quiz</Link>
             </Grid>
           </Grid>
         </div>
