@@ -86,9 +86,9 @@ const QuizCard = ({ item = {}, history, requestQuiz }) => {
           <Button size="small" color="primary" onClick={takeQuiz}>
             Take It!
           </Button>
-          <Button size="small" color="primary">
+          {/* <Button size="small" color="primary">
             Edit
-          </Button>
+          </Button> */}
         </CardActions>
       </Card>
     </Grid>
