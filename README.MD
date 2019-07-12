@@ -26,12 +26,11 @@ _Pulling from master_
 * Make sure you are on the master branch (`git checkout master`)
 * Pull the latest changes (`git pull origin master` or `git pull` for short)
 
-While ONE person is working on this, ANOTHER person can begin work on [database setup](#database-setup)
 
 ## API Requirements
 
-In order for the UI to work, the following API routes must exist and should return data in the format shown. The 
-ApiModels are already implemented, but you may have to modify the mappings to and from the domain model.
+In order for the UI to work, the following API routes must be implemented and should return the appropriate ApiModel. The 
+ApiModels are already implemented for you, but you will have to modify the mappings to and from the domain model.
 
 1. GET /api/quizzes
 1. GET /api/quizzes/{id}
@@ -54,9 +53,9 @@ TODO: list entities and properties
 Let's get started...
 
 _Note: Many of the tasks are intentionally vague, but nearly everything in this project is work you've done before. If
-there is anything new, it will be called out in the instructions.
+there is anything new, it will be called out in the instructions or in TODOs in the code.
 
-1. Implement the domain model classes in the Core project.
+1. Implement the domain model classes in the Core project. The classes already exist, but you must fill in the correct properties according to the design shown above. Tne names and types are important so the model will match up with the existing database.
 
 1. In the Infrastructure project, implement a QuizRespository based on the given IQuizRepository interface.
 1. Implement a QuestionRepository based on the given IQuestionRespository interface.
@@ -67,8 +66,8 @@ there is anything new, it will be called out in the instructions.
                 .HasKey(qt => new { qt.QuizId, qt.QuestionId });
    ```
 
-1. In the Core project, implement a QuizService based on the given IQuizService interface.
-1. In the Core project, implement a QuestionService based on the given IQuestionService interface.
+1. In the Core project, implement a QuizService based on the given IQuizService interface. It should use IQuizRepository to access the database.
+1. In the Core project, implement a QuestionService based on the given IQuestionService interface. It should use IQuestionRepository to access the database.
 
 1. In the ApiModels folder of the main project, complete the implementation of mapping extensions. See the TODOs in each file.
    1. AnswerMappingExtensions

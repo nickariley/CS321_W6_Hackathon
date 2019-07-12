@@ -12,6 +12,7 @@ import Stepper from './Stepper';
 class TakeQuiz extends React.Component {
   state = {
     questionIndex: 0,
+    answers: {}
   };
 
   componentDidMount() {
@@ -26,23 +27,6 @@ class TakeQuiz extends React.Component {
     const { quiz } = this.props;
     if (!quiz || !quiz.questions) return [];
     return quiz.questions;
-  };
-
-  isQuizNotStarted = () => {
-    const { questionIndex } = this.state;
-    return questionIndex < 0;
-  };
-
-  isQuizInProgress = () => {
-    const { questionIndex } = this.state;
-    const questions = this.getQuestions();
-    return questionIndex >= 0 && questionIndex < questions.length;
-  };
-
-  isQuizCompleted = () => {
-    const { questionIndex } = this.state;
-    const questions = this.getQuestions();
-    return questionIndex >= questions.length;
   };
 
   handleStartQuiz = () => {
@@ -70,18 +54,33 @@ class TakeQuiz extends React.Component {
     });
   };
 
+  handleQuestionSubmitted = (questionId, selectedAnswers) => {
+    this.setState({
+      answers: {
+        ...this.state.answers,
+        [questionId]: selectedAnswers
+      }
+    });
+  };
+
   render() {
+    console.log(this.state.answers);
     const { questionIndex } = this.state;
     const { quiz } = this.props;
     const questions = this.getQuestions();
-    //const classes = useStyles();
     const questionCards = [
       <StartQuiz
         quiz={quiz}
         onStart={this.handleStartQuiz}
         onCancel={this.handleCancelQuiz}
       />,
-      ...questions.map((q) => <ShowQuestion question={q} />),
+      ...questions.map((q) => (
+        <ShowQuestion
+          question={q}
+          onNext={this.handleNextQuestion}
+          onSubmitted={this.handleQuestionSubmitted}
+        />
+      )),
       <EndQuiz quiz={quiz} />,
     ];
     return (
