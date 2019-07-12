@@ -12,7 +12,7 @@ import Stepper from './Stepper';
 class TakeQuiz extends React.Component {
   state = {
     questionIndex: 0,
-    answers: {}
+    answers: {},
   };
 
   componentDidMount() {
@@ -26,7 +26,7 @@ class TakeQuiz extends React.Component {
   getQuestions = () => {
     const { quiz } = this.props;
     if (!quiz || !quiz.questions) return [];
-    return quiz.questions;
+    return [...quiz.questions.map((q) => ({ ...q }))];
   };
 
   handleStartQuiz = () => {
@@ -38,6 +38,14 @@ class TakeQuiz extends React.Component {
 
   handleCancelQuiz = () => {
     this.props.history.goBack();
+  };
+
+  handleStartOver = () => {
+    // reset state
+    this.setState({
+      questionIndex: 0,
+      answers: {},
+    });
   };
 
   handleNextQuestion = () => {
@@ -54,12 +62,12 @@ class TakeQuiz extends React.Component {
     });
   };
 
-  handleQuestionSubmitted = (questionId, selectedAnswers) => {
+  handleAnswerSelected = (questionId, answer) => {
     this.setState({
       answers: {
         ...this.state.answers,
-        [questionId]: selectedAnswers
-      }
+        [questionId]: answer,
+      },
     });
   };
 
@@ -76,11 +84,18 @@ class TakeQuiz extends React.Component {
       ...questions.map((q) => (
         <ShowQuestion
           question={q}
+          answer={answers[q.id]}
           onNext={this.handleNextQuestion}
-          onSubmitted={this.handleQuestionSubmitted}
+          onAnswerSelected={this.handleAnswerSelected}
+          // onSubmitted={this.handleQuestionSubmitted}
         />
       )),
-      <EndQuiz quiz={quiz} answers={answers} />,
+      <EndQuiz
+        quiz={quiz}
+        answers={answers}
+        onStartOver={this.handleStartOver}
+        onFindAnotherQuiz={this.handleCancelQuiz}
+      />,
     ];
     return (
       <React.Fragment>

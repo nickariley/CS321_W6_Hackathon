@@ -48,11 +48,8 @@ function Stepper({ items, activeStep = 0, onNext, onBack }) {
         {/* items could be a list of components that are passed in */}
         {items.map((item, index) => (
           <div key={index}>
-            {Math.abs(activeStep - index) <= 2
-              ? //   <img className={classes.img} src={item.imgPath} alt={item.label} />
-                //   <ShowQuestion question={item} />
-                item
-              : null}
+            {/* {Math.abs(activeStep - index) <= 2 ? item : null} */}
+            {item}
           </div>
         ))}
       </SwipeableViews>
@@ -76,11 +73,7 @@ function Stepper({ items, activeStep = 0, onNext, onBack }) {
           </Button>
         }
         backButton={
-          <Button
-            size="small"
-            onClick={onBack}
-            disabled={activeStep === 0}
-          >
+          <Button size="small" onClick={onBack} disabled={activeStep === 0}>
             {theme.direction === 'rtl' ? (
               <KeyboardArrowRight />
             ) : (

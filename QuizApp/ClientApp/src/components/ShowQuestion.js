@@ -21,28 +21,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ShowQuestion = ({ question, onNext, onSubmitted }) => {
+const ShowQuestion = ({
+  question,
+  answer = {},
+  onAnswerSelected,
+  onNext,
+  onSubmitted,
+}) => {
   const classes = useStyles();
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { selectedAnswers = [], isSubmitted = false } = answer;
 
   function handleAnswerSelected(answer) {
-    if (isSubmitted) return;
+    if (answer.isSubmitted) return;
 
+    let newSelectedAnswers;
     if (question.type === 'multiChoice') {
       if (selectedAnswers.includes(answer)) {
-        setSelectedAnswers(selectedAnswers.filter((a) => a.id !== answer.id));
+        newSelectedAnswers = selectedAnswers.filter((a) => a.id !== answer.id);
       } else {
-        setSelectedAnswers([...selectedAnswers, answer]);
+        newSelectedAnswers = [...selectedAnswers, answer];
       }
     } else {
-      setSelectedAnswers([answer]);
+      newSelectedAnswers = [answer];
     }
+    onAnswerSelected(question.id, {
+      isSubmitted: false,
+      selectedAnswers: newSelectedAnswers,
+    });
   }
 
   function handleSubmit() {
-    setIsSubmitted(true);
-    onSubmitted(question.id, selectedAnswers);
+    onAnswerSelected(question.id, { isSubmitted: true, selectedAnswers });
   }
 
   return (
