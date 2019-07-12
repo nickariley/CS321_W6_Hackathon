@@ -55,6 +55,7 @@ class TakeQuiz extends React.Component {
   };
 
   handleQuestionSubmitted = (questionId, selectedAnswers) => {
+    console.log(questionId, selectedAnswers);
     this.setState({
       answers: {
         ...this.state.answers,
