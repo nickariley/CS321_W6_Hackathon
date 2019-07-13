@@ -1,5 +1,6 @@
 import QuizApi from '../QuizAPI';
 import sampleQuiz from '../sampleQuiz';
+import { actionCreators as showNotificationActionCreators } from '../store/ShowNotification';
 
 const requestQuestions = 'REQUEST_QUESTIONS';
 const receiveQuestions = 'RECEIVE_QUESTIONS';
@@ -13,7 +14,9 @@ export const actionCreators = {
       const questions = await QuizApi.getQuestions();
       dispatch({ type: receiveQuestions, questions });
     } catch (error) {
-      dispatch({ type: receiveQuestions, questions: sampleQuiz.questions, error: "Unable to fetch questions. Using sample data." });
+     //dispatch({ type: receiveQuestions, questions: sampleQuiz.questions });
+     dispatch({ type: receiveQuestions, questions: sampleQuiz.questions, error: "Unable to fetch questions. Using sample data." });
+     dispatch(showNotificationActionCreators.showNotification(true));
     }
   },
 };

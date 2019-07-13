@@ -7,7 +7,8 @@ import * as Quiz from './Quiz';
 import * as Quizzes from './Quizzes';
 import * as Question from './Question';
 import * as Questions from './Questions';
-
+import * as ViewName from './ViewName';
+import * as ShowNotification from './ShowNotification';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -16,7 +17,9 @@ export default function configureStore (history, initialState) {
     quiz: Quiz.reducer,
     quizzes: Quizzes.reducer,
     question: Question.reducer,
-    questions: Questions.reducer
+    questions: Questions.reducer,
+    viewName: ViewName.reducer,
+    isNotificationOpen: ShowNotification.reducer
   };
 
   const middleware = [

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../store/Quizzes';
+import { actionCreators as quizActionCreators } from '../store/Quizzes';
+import { actionCreators as viewNameActionCreators } from '../store/ViewName';
 
 import CardGrid from './CardGrid';
 import QuizCard from './QuizCard';
@@ -9,6 +10,8 @@ import QuizCard from './QuizCard';
 class Home extends React.Component {
 
   componentDidMount() {
+    const { setViewName } = this.props;
+    setViewName("Quizzes");
     this.fetchQuizzes();
   }
 
@@ -31,5 +34,5 @@ class Home extends React.Component {
 
 export default connect(
   (state) => state,
-  (dispatch) => bindActionCreators(actionCreators, dispatch)
+  (dispatch) => bindActionCreators({ ...viewNameActionCreators, ...quizActionCreators }, dispatch)
 )(Home);

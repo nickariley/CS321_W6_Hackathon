@@ -35,7 +35,7 @@ const AnswerEditor = ({ index, answer, isNew, onChange }) => {
   }
 
   function handleCorrectChange(event) {
-    answer.isCorrect = event.target.value;
+    answer.isCorrect = event.target.checked;
     onChange(index, answer);
   }
 
@@ -46,7 +46,7 @@ const AnswerEditor = ({ index, answer, isNew, onChange }) => {
         label={`Answer ${index + 1} Content`}
         helperText="You can use markdown in this field."
         multiline
-        rows="5"
+        rows="8"
         defaultValue=""
         //className={classes.textField}
         fullWidth

@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actionCreators } from '../store/Questions';
+import { actionCreators as questionActionCreators } from '../store/Questions';
+import { actionCreators as viewNameActionCreators } from '../store/ViewName';
+import { actionCreators as showNotificationActionCreators } from '../store/ShowNotification';
+
 import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,10 +20,9 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import QuestionIcon from '@material-ui/icons/Help';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import InfoIcon from '@material-ui/icons/Info';
-import { amber, green } from '@material-ui/core/colors';
+import { Button } from '@material-ui/core';
+
+import Notification from './Notification';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,24 +40,12 @@ const useStyles = makeStyles((theme) => ({
       outline: 0,
     },
   },
-  success: {
-    backgroundColor: green[600],
-  },
-  error: {
-    backgroundColor: theme.palette.error.dark,
-  },
-  info: {
-    backgroundColor: theme.palette.primary.main,
-  },
-  warning: {
-    backgroundColor: amber[700],
-  },  
 }));
 
-const QuestionList = ({ questions, requestQuestions }) => {
+const QuestionList = ({ questions, requestQuestions, setViewName, showNotification, isNotificationOpen }) => {
   const classes = useStyles();
-  const [snackbarOpen, setSnackbarOpen] = useState(true);
   useEffect(() => {
+    setViewName('Questions');
     fetchQuestions();
   }, []);
 
@@ -64,35 +54,38 @@ const QuestionList = ({ questions, requestQuestions }) => {
   }
 
   function handleClose() {
-    setSnackbarOpen(false);
+    showNotification(false);
   }
+
+  console.log('ql', isNotificationOpen, questions.error);
 
   return (
     <Container justify="center" maxWidth="md">
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        open={snackbarOpen}
-        autoHideDuration={2000}
-        onClose={handleClose}
-      >
-        <SnackbarContent
-          className={classes.warning}
-          aria-describedby="client-snackbar"
-          message={
-            <span id="client-snackbar" className={classes.message}>
-              <InfoIcon />
-              {questions.error}
-            </span>
-          }
-        />
-      </Snackbar>
+      <Notification
+        isOpen={isNotificationOpen.isNotificationOpen}
+        message={questions.error}
+        handleClose={handleClose}
+      />
       <Grid item xs={12} md={12}>
-        <Typography variant="h6" className={classes.title}>
-          Questions
-        </Typography>
+        <Grid container alignItems="center" justify="space-between">
+          <Grid item md={10}>
+            <Typography variant="h6" className={classes.title}>
+              Questions
+            </Typography>
+          </Grid>
+          <Grid item md={2}>
+            <Grid
+              container
+              alignItems="flex-start"
+              justify="flex-end"
+              direction="row"
+            >
+              <Button variant="contained" component={Link} to="/edit-question">
+                New Question
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
         <div className={classes.demo}>
           <List dense={false}>
             {questions.questions.map((q, i) => (
@@ -133,5 +126,13 @@ const QuestionList = ({ questions, requestQuestions }) => {
 
 export default connect(
   (state) => state,
-  (dispatch) => bindActionCreators(actionCreators, dispatch)
+  (dispatch) =>
+    bindActionCreators(
+      {
+        ...questionActionCreators,
+        ...viewNameActionCreators,
+        ...showNotificationActionCreators,
+      },
+      dispatch
+    )
 )(QuestionList);

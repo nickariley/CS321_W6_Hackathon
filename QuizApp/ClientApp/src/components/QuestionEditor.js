@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actionCreators } from '../store/Question';
-import { withRouter } from 'react-router-dom';
-
-import { Markdown } from 'react-markdown-tree';
+import { actionCreators as questionActionCreators } from '../store/Question';
+import { actionCreators as viewNameActionCreators } from '../store/ViewName';
+import { actionCreators as showNotificationActionCreators } from '../store/ShowNotification';
+import { Link, withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
-import AnswerEditor from './AnswerEditor';
 import Grid from '@material-ui/core/Grid';
-import AnswerCard from './AnswerCard';
 import { Button } from '@material-ui/core';
+
+import AnswerEditor from './AnswerEditor';
+import Notification from './Notification';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,17 +32,31 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
   },
   grid: {
-    margin: 5
-  }
+    margin: 5,
+  },
 }));
 
-const QuestionEditor = ({ match, isNew, question, requestQuestion }) => {
+const QuestionEditor = ({
+  match,
+  isNew,
+  question,
+  requestQuestion,
+  setViewName,
+  showNotification,
+  isNotificationOpen,
+}) => {
   const classes = useStyles();
-  const [prompt, setPrompt] = useState(question && question.question ? question.question.prompt : "");
+  const [prompt, setPrompt] = useState(
+    question && question.question ? question.question.prompt : ''
+  );
   const [answers, setAnswers] = useState([{}, {}, {}]);
 
   useEffect(() => {
-    if (isNew) return;
+    if (isNew) {
+      setViewName('New Question');
+      return;
+    }
+    setViewName('Edit Question');
     var id = match.params.questionId;
     if (!question || !question.question || question.question.id !== id) {
       fetchQuestion(id);
@@ -63,13 +78,20 @@ const QuestionEditor = ({ match, isNew, question, requestQuestion }) => {
     setAnswers(newAnswers);
   }
 
+  function handleClose() {
+    showNotification(false);
+  }
+
   return (
     <Container justify="center" maxWidth="md">
-      <h3 align="center">Edit Question</h3>
-
+      <Notification
+        isOpen={isNotificationOpen.isNotificationOpen}
+        message={question.error}
+        handleClose={handleClose}
+      />
       <form className={classes.container} noValidate autoComplete="off">
         <Grid container spacing={4}>
-          <Grid item md={12} >
+          <Grid item md={12}>
             <TextField
               id="standard-multiline-static"
               label="Question Prompt"
@@ -110,10 +132,14 @@ const QuestionEditor = ({ match, isNew, question, requestQuestion }) => {
         </Grid>
         <Grid container spacing={2} alignItems="center" justify="center">
           <Grid item>
-            <Button variant="contained" color="primary">Save</Button>
+            <Button variant="contained" color="primary">
+              Save
+            </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained">Cancel</Button>
+            <Button variant="contained" component={Link} to="/questions">
+              Cancel
+            </Button>
           </Grid>
         </Grid>
       </form>
@@ -122,5 +148,13 @@ const QuestionEditor = ({ match, isNew, question, requestQuestion }) => {
 };
 export default connect(
   (state) => state,
-  (dispatch) => bindActionCreators(actionCreators, dispatch)
+  (dispatch) =>
+    bindActionCreators(
+      {
+        ...questionActionCreators,
+        ...viewNameActionCreators,
+        ...showNotificationActionCreators,
+      },
+      dispatch
+    )
 )(withRouter(QuestionEditor));
