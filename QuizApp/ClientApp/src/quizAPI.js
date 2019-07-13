@@ -1,4 +1,3 @@
-import quiz from './sampleQuiz';
 
 const fetchJson = async (uri, options) => {
     const response = await fetch(uri, options);
@@ -14,7 +13,12 @@ class QuizApi {
         const uri = `api/questions`;
         const options = {};
         return fetchJson(uri, options);
-        //return Promise.resolve(quiz.questions);
+    }
+
+    static getQuestion(questionId) {
+        const uri = `api/questions/${questionId}`;
+        const options = {};
+        return fetchJson(uri, options);
     }
 
     static getQuizzes() {

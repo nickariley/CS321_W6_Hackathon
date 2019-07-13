@@ -54,15 +54,15 @@ export default ({ answer, selected, submitted = false, onSelected }) => {
   //const content = "* test\n* test\n* test\n\n```csharp\nvar i = 10;\n```";
 
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    // <Grid item xs={12} sm={6} md={4}>
       <Card
         className={cardClasses}
-        onClick={() => onSelected(answer)}
+        onClick={() => onSelected && onSelected(answer)}
       >
         <CardContent className={classes.cardContent}>
           <Markdown>{answer.content}</Markdown>
         </CardContent>
       </Card>
-    </Grid>
+    // </Grid>
   );
 };

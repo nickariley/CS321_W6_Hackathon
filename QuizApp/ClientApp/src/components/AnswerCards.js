@@ -16,7 +16,11 @@ export default ({ children = [] }) => {
   return (
     <Container className={classes.cardGrid} maxWidth="lg">
       <Grid container spacing={4}>
-          {children}
+        {children.map((child) => (
+          <Grid item xs={12} sm={6} md={4}>
+            {child}
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );
