@@ -1,16 +1,17 @@
+const tokenName = 'quizToken';
 class TokenHelper {
     getToken() {
-        var blogToken = JSON.parse(localStorage.getItem('blogToken'));
-        return blogToken;
+        var token = JSON.parse(localStorage.getItem(tokenName));
+        return token;
     }
 
     setToken(tokenObject) {
-        localStorage.setItem('blogToken', JSON.stringify(tokenObject));
+        localStorage.setItem(tokenName, JSON.stringify(tokenObject));
 
     }
 
     removeToken() {
-        localStorage.removeItem('blogToken');
+        localStorage.removeItem(tokenName);
     }
 }
 
