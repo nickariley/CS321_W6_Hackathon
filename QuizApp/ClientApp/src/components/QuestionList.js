@@ -53,18 +53,16 @@ const QuestionList = ({ questions, requestQuestions, setViewName, showNotificati
     return requestQuestions();
   }
 
-  function handleClose() {
+  function handleCloseNotification() {
     showNotification(false);
   }
-
-  console.log('ql', isNotificationOpen, questions.error);
 
   return (
     <Container justify="center" maxWidth="md">
       <Notification
         isOpen={isNotificationOpen.isNotificationOpen}
         message={questions.error}
-        handleClose={handleClose}
+        handleClose={handleCloseNotification}
       />
       <Grid item xs={12} md={12}>
         <Grid container alignItems="center" justify="space-between">

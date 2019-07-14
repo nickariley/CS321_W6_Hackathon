@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actionCreators as questionActionCreators } from '../store/Question';
+import { actionCreators as questionActionCreators } from '../store/Questions';
 import { actionCreators as viewNameActionCreators } from '../store/ViewName';
 import { actionCreators as showNotificationActionCreators } from '../store/ShowNotification';
 import { Link, withRouter } from 'react-router-dom';
@@ -39,30 +39,34 @@ const useStyles = makeStyles((theme) => ({
 const QuestionEditor = ({
   match,
   isNew,
-  question,
+  questions,
   requestQuestion,
+  saveQuestion,
   setViewName,
   showNotification,
   isNotificationOpen,
+  history
 }) => {
   const classes = useStyles();
   const initialQuestionState = {
     prompt: '',
-    answers: [{
-      content: '',
-      isCorrect: false
-    },
-    {
-      content: '',
-      isCorrect: false
-    },
-    {
-      content: '',
-      isCorrect: false
-    }]
+    answers: [
+      {
+        content: '',
+        isCorrect: false,
+      },
+      {
+        content: '',
+        isCorrect: false,
+      },
+      {
+        content: '',
+        isCorrect: false,
+      },
+    ],
   };
   const [questionState, setQuestionState] = useState(initialQuestionState);
-  
+
   // mounted
   useEffect(() => {
     if (isNew) {
@@ -71,15 +75,19 @@ const QuestionEditor = ({
     }
     setViewName('Edit Question');
     var id = match.params.questionId;
-    if (!question || !question.question || question.question.id !== id) {
+    if (!questions || !questions.question || questions.question.id !== id) {
       fetchQuestion(id);
     }
   }, []);
 
   // update state if question prop changes
   useEffect(() => {
-    setQuestionState(question.question || initialQuestionState);
-  }, [question]);
+    if (isNew) {
+      setQuestionState(initialQuestionState);
+      return;
+    }
+    setQuestionState(questions.question || initialQuestionState);
+  }, [questions]);
 
   function fetchQuestion(id) {
     requestQuestion(id);
@@ -87,7 +95,7 @@ const QuestionEditor = ({
 
   function handleQuestionChanged(event) {
     const prompt = event.target.value;
-    setQuestionState({ ...questionState, prompt});
+    setQuestionState({ ...questionState, prompt });
   }
 
   function handleAnswerChanged(index, answer) {
@@ -97,16 +105,21 @@ const QuestionEditor = ({
     //setQuestionState({ ...questionState, answers: newAnswers });
   }
 
-  function handleClose() {
+  function handleCloseNotification() {
     showNotification(false);
+  }
+
+  function handleSave() {
+    saveQuestion(questionState);
+    history.push('/questions');
   }
 
   return (
     <Container justify="center" maxWidth="md">
       <Notification
         isOpen={isNotificationOpen.isNotificationOpen}
-        message={question.error}
-        handleClose={handleClose}
+        message={questions.error}
+        handleClose={handleCloseNotification}
       />
       <form className={classes.container} noValidate autoComplete="off">
         <Grid container spacing={4}>
@@ -149,7 +162,7 @@ const QuestionEditor = ({
         </Grid>
         <Grid container spacing={2} alignItems="center" justify="center">
           <Grid item>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleSave}>
               Save
             </Button>
           </Grid>

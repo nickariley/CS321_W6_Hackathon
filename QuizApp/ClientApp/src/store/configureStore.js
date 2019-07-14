@@ -5,7 +5,7 @@ import * as Counter from './Counter';
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Quiz from './Quiz';
 import * as Quizzes from './Quizzes';
-import * as Question from './Question';
+//import * as Question from './Question';
 import * as Questions from './Questions';
 import * as ViewName from './ViewName';
 import * as ShowNotification from './ShowNotification';
@@ -16,7 +16,7 @@ export default function configureStore (history, initialState) {
     weatherForecasts: WeatherForecasts.reducer,
     quiz: Quiz.reducer,
     quizzes: Quizzes.reducer,
-    question: Question.reducer,
+    //question: Question.reducer,
     questions: Questions.reducer,
     viewName: ViewName.reducer,
     isNotificationOpen: ShowNotification.reducer
