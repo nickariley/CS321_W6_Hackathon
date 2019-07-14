@@ -42,7 +42,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionList = ({ questions, requestQuestions, setViewName, showNotification, isNotificationOpen }) => {
+const QuestionList = ({
+  questions,
+  requestQuestions,
+  setViewName,
+  showNotification,
+  isNotificationOpen,
+  deleteQuestion
+}) => {
   const classes = useStyles();
   useEffect(() => {
     setViewName('Questions');
@@ -55,6 +62,11 @@ const QuestionList = ({ questions, requestQuestions, setViewName, showNotificati
 
   function handleCloseNotification() {
     showNotification(false);
+  }
+
+  function handleDelete(id) {
+    deleteQuestion(id);
+    
   }
 
   return (
@@ -109,6 +121,7 @@ const QuestionList = ({ questions, requestQuestions, setViewName, showNotificati
                     edge="end"
                     aria-label="Delete"
                     className={classes.button}
+                    onClick={() => handleDelete(q.id)}
                   >
                     <DeleteIcon />
                   </IconButton>

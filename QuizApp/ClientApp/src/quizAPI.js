@@ -41,6 +41,14 @@ class QuizApi {
     return fetchJson(uri, options);
   }
 
+  static deleteQuestion(questionId) {
+    const uri = `api/questions/${questionId}`;
+    const options = {
+      method: 'DELETE'
+    };
+    return fetchJson(uri, options);
+  }
+
   static getQuizzes() {
     const uri = `api/quizzes`;
     const options = {};

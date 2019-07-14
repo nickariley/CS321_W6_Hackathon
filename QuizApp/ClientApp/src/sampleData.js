@@ -236,7 +236,7 @@ const questions = [
       {
         id: 1,
         content: 'Startup.Configure()',
-        isCorrect: true,
+        isCorrect: false,
       },
       {
         id: 1,
@@ -246,7 +246,7 @@ const questions = [
       {
         id: 1,
         content: 'Startup.ConfigureServices()',
-        isCorrect: false,
+        isCorrect: true,
       },
     ],
   },
