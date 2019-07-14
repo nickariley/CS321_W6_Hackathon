@@ -36,18 +36,15 @@ const App = ({ history, setUser }) => {
         loggedIn: true,
         email: loginModel.email,
       });
-      // this.setState({
-      //   loggedIn: true,
-      //   email: res.data.email,
-      // });
       history.push('/');
     });
   }
 
   function logOut() {
     TokenHelper.removeToken();
-    this.setState({
+    setUser({
       loggedIn: false,
+      email: ''
     });
   }
 
@@ -58,7 +55,7 @@ const App = ({ history, setUser }) => {
   }
 
   return (
-    <Layout>
+    <Layout logOut={logOut}>
       <Route exact path="/" component={Home} />
       <Route exact path="/login" component={() => <Login logIn={logIn} />} />
       <Route

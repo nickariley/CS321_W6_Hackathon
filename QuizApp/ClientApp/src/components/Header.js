@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = (viewName) => {
+const Header = ({ viewName, user, logOut }) => {
   const classes = useStyles();
   // const classes = useStyles();
   return (
@@ -62,14 +62,26 @@ const Header = (viewName) => {
         >
           Questions
         </Button>
-        <Button
-          className={classes.button}
-          color="inherit"
-          component={Link}
-          to="/login"
-        >
-          Sign In
-        </Button>
+        {user.loggedIn ? (
+          <Button
+            className={classes.button}
+            color="inherit"
+            component={Link}
+            to="/login"
+            onClick={logOut}
+          >
+            Sign Out
+          </Button>
+        ) : (
+          <Button
+            className={classes.button}
+            color="inherit"
+            component={Link}
+            to="/login"
+          >
+            Sign In
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
@@ -77,4 +89,4 @@ const Header = (viewName) => {
 
 //export default Header;
 
-export default connect((state) => state.viewName)(Header);
+export default connect((state) => state)(Header);
