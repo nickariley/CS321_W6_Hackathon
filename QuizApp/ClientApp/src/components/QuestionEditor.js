@@ -46,11 +46,24 @@ const QuestionEditor = ({
   isNotificationOpen,
 }) => {
   const classes = useStyles();
-  const [prompt, setPrompt] = useState(
-    question && question.question ? question.question.prompt : ''
-  );
-  const [answers, setAnswers] = useState([{}, {}, {}]);
-
+  const initialQuestionState = {
+    prompt: '',
+    answers: [{
+      content: '',
+      isCorrect: false
+    },
+    {
+      content: '',
+      isCorrect: false
+    },
+    {
+      content: '',
+      isCorrect: false
+    }]
+  };
+  const [questionState, setQuestionState] = useState(initialQuestionState);
+  
+  // mounted
   useEffect(() => {
     if (isNew) {
       setViewName('New Question');
@@ -63,19 +76,25 @@ const QuestionEditor = ({
     }
   }, []);
 
+  // update state if question prop changes
+  useEffect(() => {
+    setQuestionState(question.question || initialQuestionState);
+  }, [question]);
+
   function fetchQuestion(id) {
     requestQuestion(id);
   }
 
   function handleQuestionChanged(event) {
-    setPrompt(event.target.value);
+    const prompt = event.target.value;
+    setQuestionState({ ...questionState, prompt});
   }
 
   function handleAnswerChanged(index, answer) {
-    console.log(index, answer, answers);
-    const newAnswers = [...answers];
+    const newAnswers = [...questionState.answers];
     newAnswers[index] = answer;
-    setAnswers(newAnswers);
+    questionState.answers = newAnswers;
+    //setQuestionState({ ...questionState, answers: newAnswers });
   }
 
   function handleClose() {
@@ -98,11 +117,9 @@ const QuestionEditor = ({
               helperText="You can use markdown in the question prompt."
               multiline
               rows="5"
-              // defaultValue=""
-              //className={classes.textField}
               fullWidth
               margin="normal"
-              value={prompt}
+              value={questionState.prompt}
               onChange={handleQuestionChanged}
             />
           </Grid>
@@ -111,21 +128,21 @@ const QuestionEditor = ({
           <Grid item md={4}>
             <AnswerEditor
               index={0}
-              answer={answers[0]}
+              answer={questionState.answers[0]}
               onChange={handleAnswerChanged}
             />
           </Grid>
           <Grid item md={4}>
             <AnswerEditor
               index={1}
-              answer={answers[1]}
+              answer={questionState.answers[1]}
               onChange={handleAnswerChanged}
             />
           </Grid>
           <Grid item md={4}>
             <AnswerEditor
               index={2}
-              answer={answers[2]}
+              answer={questionState.answers[2]}
               onChange={handleAnswerChanged}
             />
           </Grid>

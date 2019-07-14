@@ -14,9 +14,7 @@ export const actionCreators = {
       const question = await QuizApi.getQuestion(questionId);
       dispatch({ type: receiveQuestion, question });
     } catch (error) {
-      console.log('question catch', error);
-      const question = sampleQuiz.questions.find(q => q.id === questionId);
-      console.log('question catch', question, questionId);
+      const question = sampleQuiz.questions.find(q => Number(q.id) === Number(questionId));
       dispatch({ type: receiveQuestion, question, error: "Unable to fetch questions. Using sample data." });
       dispatch(showNotificationActionCreators.showNotification(true));
     }
