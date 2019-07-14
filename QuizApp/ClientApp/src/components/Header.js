@@ -62,8 +62,13 @@ const Header = (viewName) => {
         >
           Questions
         </Button>
-        <Button className={classes.button} color="inherit">
-          Login
+        <Button
+          className={classes.button}
+          color="inherit"
+          component={Link}
+          to="/login"
+        >
+          Sign In
         </Button>
       </Toolbar>
     </AppBar>
@@ -72,6 +77,4 @@ const Header = (viewName) => {
 
 //export default Header;
 
-export default connect(
-  state => state.viewName
-)(Header);
+export default connect((state) => state.viewName)(Header);

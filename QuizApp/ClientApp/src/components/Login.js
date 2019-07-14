@@ -91,7 +91,6 @@ export default function Login({ logIn }) {
             label="Remember me"
           /> */}
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"

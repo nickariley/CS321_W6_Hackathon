@@ -62,7 +62,7 @@ namespace QuizApp.Controllers
             if (user != null)
             {
                 var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString });
+                response = Ok(new { token = tokenString, email = login.Email });
             }
 
             return response;

@@ -9,6 +9,7 @@ import * as Quizzes from './Quizzes';
 import * as Questions from './Questions';
 import * as ViewName from './ViewName';
 import * as ShowNotification from './ShowNotification';
+import * as User from './User';
 
 export default function configureStore (history, initialState) {
   const reducers = {
@@ -19,7 +20,8 @@ export default function configureStore (history, initialState) {
     //question: Question.reducer,
     questions: Questions.reducer,
     viewName: ViewName.reducer,
-    isNotificationOpen: ShowNotification.reducer
+    isNotificationOpen: ShowNotification.reducer,
+    user: User.reducer
   };
 
   const middleware = [

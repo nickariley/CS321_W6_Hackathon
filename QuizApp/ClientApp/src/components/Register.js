@@ -51,7 +51,8 @@ export default function Register({ register }) {
     });
   }
 
-  function handleRegister() {
+  function handleRegister(event) {
+    //event.preventDefault();
     register(registrationInfo);
   }
 
@@ -122,7 +123,7 @@ export default function Register({ register }) {
             </Grid>
           </Grid>
           <Button
-            type="submit"
+            // type="submit"
             fullWidth
             variant="contained"
             color="primary"
