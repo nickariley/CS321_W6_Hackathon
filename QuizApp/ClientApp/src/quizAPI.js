@@ -28,6 +28,9 @@ class QuizApi {
       options = {
         method: 'POST',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       };
     } else {
       // update
@@ -35,6 +38,9 @@ class QuizApi {
       options = {
         method: 'PUT',
         body,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       };
     }
 
@@ -44,7 +50,7 @@ class QuizApi {
   static deleteQuestion(questionId) {
     const uri = `api/questions/${questionId}`;
     const options = {
-      method: 'DELETE'
+      method: 'DELETE',
     };
     return fetchJson(uri, options);
   }
@@ -62,6 +68,30 @@ class QuizApi {
   }
 
   static getRandomQuiz() {}
+
+  static login(loginInfo) {
+    const uri = `api/auth/login`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(loginInfo),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    return fetchJson(uri, options);
+  }
+
+  static register(registerInfo) {
+    const uri = `api/auth/register`;
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(registerInfo),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    return fetchJson(uri, options);
+  }
 }
 
 export default QuizApi;
