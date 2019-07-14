@@ -1,4 +1,6 @@
 import QuizApi from "../QuizAPI";
+import sampleData from '../sampleData';
+import { actionCreators as showNotificationActionCreators } from '../store/ShowNotification';
 
 const requestQuiz = 'REQUEST_QUIZ';
 const receiveQuiz = 'RECEIVE_QUIZ';
@@ -8,9 +10,14 @@ export const actionCreators = {
   requestQuiz: quizId => async (dispatch, getState) => {
     dispatch({ type: requestQuiz, quizId });
 
-    const quiz = await QuizApi.getQuiz(quizId);
-
-    dispatch({ type: receiveQuiz, quiz });
+    try {
+      const quiz = await QuizApi.getQuiz(quizId);
+      dispatch({ type: receiveQuiz, quiz });
+    } catch (error) {
+      const quiz = sampleData.quizzes.find(q => Number(q.id) === Number(quizId));
+      dispatch({ type: receiveQuiz, quiz, error: "Unable to fetch quiz. Using sample data." });
+      dispatch(showNotificationActionCreators.showNotification(true));      
+    }
   }
 };
 
