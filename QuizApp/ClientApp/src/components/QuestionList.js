@@ -55,6 +55,7 @@ const QuestionList = ({
     // setViewName('Questions');
     // fetchQuestions();
     loadQuestions();
+    setViewName('Questions');
   }, []);
 
   // function fetchQuestions() {

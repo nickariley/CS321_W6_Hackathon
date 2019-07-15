@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionEditor = ({ match, isNew, history }) => {
+const QuestionEditor = ({ match, isNew, history, setViewName }) => {
   const classes = useStyles();
   const initialQuestionState = {
     question: {
@@ -63,6 +63,11 @@ const QuestionEditor = ({ match, isNew, history }) => {
     const questionId = match.params.questionId;
     if (!question || question.id !== questionId) {
       loadQuestion(questionId);
+    }
+    if (isNew) {
+      setViewName('New Question');
+    } else {
+      setViewName('Edit Question');
     }
   }, []);
 

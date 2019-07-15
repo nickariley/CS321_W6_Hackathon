@@ -42,7 +42,7 @@ const Header = ({ viewName, user, logOut }) => {
           noWrap
           className={classes.title}
         >
-          {viewName && viewName.viewName}
+          {viewName}
         </Typography>
         <Button
           className={classes.button}

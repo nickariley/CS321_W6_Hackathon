@@ -14,11 +14,12 @@ import Login from './components/Login';
 import Register from './components/Register';
 
 const App = ({ history }) => {
-  
+  const [viewName, setViewName] = useState('');
   const [user, setUser] = useState({
     loggedIn: false,
-    email: ''
+    email: '',
   });
+
   useEffect(() => {
     QuizAPI.verifyToken()
       .then((token) => {
@@ -62,31 +63,47 @@ const App = ({ history }) => {
   }
 
   return (
-    <Layout user={user} logOut={logOut}>
-      <Route exact path="/login" component={() => <Login user={user} logIn={logIn} />} />
+    <Layout user={user} logOut={logOut} viewName={viewName}>
+      <Route
+        exact
+        path="/login"
+        component={() => <Login user={user} logIn={logIn} />}
+      />
       <Route
         exact
         path="/register"
         component={() => <Register register={register} />}
       />
       <Route exact path="/take-quiz/:quizId" component={TakeQuiz} />
-      <Route exact path="/questions" component={QuestionList} />
+      <Route
+        exact
+        path="/questions"
+        component={() => <QuestionList setViewName={setViewName} />}
+      />
       <Route
         exact
         path="/edit-question"
-        component={() => <QuestionEditor isNew={true} />}
+        component={() => (
+          <QuestionEditor isNew={true} setViewName={setViewName} />
+        )}
       />
       <Route
         exact
         path="/edit-question/:questionId"
-        component={() => <QuestionEditor isNew={false} />}
+        component={() => (
+          <QuestionEditor isNew={false} setViewName={setViewName} />
+        )}
       />
       <Route
         exact
         path="/quizzes"
-        component={() => <Home  />}
+        component={() => <Home setViewName={setViewName} />}
       />
-      <Route exact path="/" component={() => <Home  />} />
+      <Route
+        exact
+        path="/"
+        component={() => <Home setViewName={setViewName} />}
+      />
     </Layout>
   );
 };

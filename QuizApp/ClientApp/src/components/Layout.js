@@ -13,13 +13,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({children, logOut, user}) => {
+export default ({ children, logOut, user, viewName }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
       <div className={classes.root}>
         <CssBaseline />
-        <Header user={user} logOut={logOut}/>
+        <Header user={user} logOut={logOut} viewName={viewName} />
         <main>
           <Container>{children}</Container>
         </main>
