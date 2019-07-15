@@ -55,6 +55,8 @@ const QuestionEditor = ({ match, isNew, history, setViewName }) => {
     },
     error: '',
   };
+
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [questionState, setQuestionState] = useState(initialQuestionState);
 
   // mounted
@@ -82,22 +84,11 @@ const QuestionEditor = ({ match, isNew, history, setViewName }) => {
       const question = sampleData.questions.find((q) => q.id === Number(id));
       setQuestionState({
         question,
-        error,
+        error: `Unable to GET /api/questions/${id}. Using sample data.`
       });
+      setIsNotificationOpen(true);
     }
   }
-
-  // update state if question prop changes
-  // useEffect(() => {
-  //   // if (isNew) {
-  //   //   //setViewName('New Question');
-  //   //   setQuestionState(initialQuestionState);
-  //   //   return;
-  //   // } else {
-  //   //   //setViewName('Edit Question')
-  //   // }
-  //   setQuestionState(question.question || initialQuestionState);
-  // }, [question]);
 
   function handleQuestionChanged(event) {
     const prompt = event.target.value;
@@ -123,7 +114,7 @@ const QuestionEditor = ({ match, isNew, history, setViewName }) => {
   }
 
   function handleCloseNotification() {
-    //showNotification(false);
+    setIsNotificationOpen(false);
   }
 
   async function handleSave() {
@@ -138,18 +129,25 @@ const QuestionEditor = ({ match, isNew, history, setViewName }) => {
         sampleData.questions[i] = question;
       }
       // dispatch(showNotificationActionCreators.showNotification(true));
+      setQuestionState({
+        question,
+        error: `Unable to POST or PUT /api/questions. Using sample data.`
+      });
+      setIsNotificationOpen(true);
     } finally {
-      history.push('/questions');
+      setTimeout(() => {
+        history.push('/questions');
+      }, 1000);
     }
   }
 
   return (
     <Container justify="center" maxWidth="md">
-      {/* <Notification
-          isOpen={isNotificationOpen.isNotificationOpen}
-          message={question.error}
+      <Notification
+          isOpen={isNotificationOpen}
+          message={questionState.error}
           handleClose={handleCloseNotification}
-        /> */}
+        />
       <form className={classes.container} noValidate autoComplete="off">
         <Grid container spacing={4}>
           <Grid item md={12}>

@@ -41,26 +41,19 @@ const useStyles = makeStyles((theme) => ({
 
 const QuestionList = ({
   setViewName,
-  // showNotification,
-  // isNotificationOpen,
 }) => {
   const classes = useStyles();
 
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [questionsState, setQuestionsState] = useState({
     questions: [],
     error: ''
   });
 
   useEffect(() => {
-    // setViewName('Questions');
-    // fetchQuestions();
     loadQuestions();
     setViewName('Questions');
   }, []);
-
-  // function fetchQuestions() {
-  //   return requestQuestions();
-  // }
 
   async function loadQuestions() {
     try {
@@ -72,31 +65,41 @@ const QuestionList = ({
     } catch (error) {
       setQuestionsState({
         questions: sampleData.questions,
-        error
+        error: 'Unable to GET /api/questions. Using sample data.'
       });
+      setIsNotificationOpen(true);
+    }
+
+  }
+
+  async function deleteQuestion(questionId) {
+    try {
+      const result = await QuizAPI.deleteQuestion(questionId);
+    } catch (error) {
+      setQuestionsState({
+        questions: sampleData.questions.filter(q => q.id !== questionId),
+        error: 'Unable to DELETE /api/questions. Using sample data.'
+      });
+      setIsNotificationOpen(true);
     }
 
   }
 
   function handleCloseNotification() {
-    //showNotification(false);
-  }
-
-  function handleEdit(id) {
-    //requestQuestion(id);
+    setIsNotificationOpen(false);
   }
 
   function handleDelete(id) {
-    //deleteQuestion(id);
+    deleteQuestion(id);
   }
 
   return (
     <Container justify="center" maxWidth="md">
-      {/* <Notification
-        isOpen={isNotificationOpen.isNotificationOpen}
-        message={questions.error}
+      <Notification
+        isOpen={isNotificationOpen}
+        message={questionsState.error}
         handleClose={handleCloseNotification}
-      /> */}
+      />
       <Grid item xs={12} md={12}>
         <Grid container alignItems="center" justify="space-between">
           <Grid item md={10}>
@@ -135,7 +138,7 @@ const QuestionList = ({
                     className={classes.button}
                     component={Link}
                     to={`/edit-question/${q.id}`}
-                    onClick={() => handleEdit(q.id)}
+                    // onClick={() => handleEdit(q.id)}
                   >
                     <EditIcon />
                   </IconButton>
