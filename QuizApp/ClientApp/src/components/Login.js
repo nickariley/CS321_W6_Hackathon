@@ -46,8 +46,9 @@ export default function Login({ logIn }) {
     });
   }
 
-  function handleLogin() {
+  function handleLogin(event) {
     logIn(loginInfo);
+    event.preventDefault();
   }
 
   return (
@@ -59,7 +60,7 @@ export default function Login({ logIn }) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleLogin}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -91,11 +92,12 @@ export default function Login({ logIn }) {
             label="Remember me"
           /> */}
           <Button
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleLogin}
+            // onClick={handleLogin}
           >
             Sign In
           </Button>

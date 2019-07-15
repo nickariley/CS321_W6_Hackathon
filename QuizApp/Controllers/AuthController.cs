@@ -95,5 +95,12 @@ namespace QuizApp.Controllers
             return null;
         }
 
+        // an Authorized route that can be used to verify token
+        [HttpGet("verify")]
+        public IActionResult Verify()
+        {
+            return Ok();
+        }
+
     }
 }

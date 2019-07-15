@@ -1,8 +1,15 @@
-const fetchJson = async (uri, options) => {
+import TokenHelper from './TokenHelper';
+
+const fetchAndThrow = async (uri, options) => {
   const response = await fetch(uri, options);
   if (!response.ok) {
     throw Error(response.statusText);
   }
+  return response;
+};
+
+const fetchJson = async (uri, options) => {
+  const response = await fetchAndThrow(uri, options);
   return response.json();
 };
 
@@ -91,6 +98,24 @@ class QuizApi {
       },
     };
     return fetchJson(uri, options);
+  }
+
+  static verifyToken() {
+    const token = TokenHelper.getToken();
+    if (!token || !token.token) {
+      return Promise.reject('Invalid token.');
+    }
+
+    const uri = `api/auth/verify`;
+    const options = {
+      headers: {
+        'Authorization': 'bearer ' + token.token
+      }
+    };
+    return fetchAndThrow(uri, options)
+      .then(() => {
+        return token;
+      });
   }
 }
 

@@ -21,22 +21,29 @@ import Register from './components/Register';
 const App = ({ history, setUser }) => {
 
   useEffect(() => {
-      const token = TokenHelper.getToken();
-      setUser({
-        loggedIn: !!token,
-        email: token ? token.email : null
+    QuizAPI.verifyToken()
+      .then((token) => {
+        setUser({
+          loggedIn: true,
+          email: token.email
+        });  
       })
+      .catch(error => {
+        setUser({
+          loggedIn: false,
+          email: ''
+        });  
+      });
   }, []);
 
   function logIn(loginModel) {
     QuizAPI.login(loginModel).then((res) => {
-      console.log('login', res);
+      history.push('/');
       TokenHelper.setToken(res);
       setUser({
         loggedIn: true,
         email: loginModel.email,
       });
-      history.push('/');
     });
   }
 
