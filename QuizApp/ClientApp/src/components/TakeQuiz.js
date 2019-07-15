@@ -81,8 +81,9 @@ class TakeQuiz extends React.Component {
         onStart={this.handleStartQuiz}
         onCancel={this.handleCancelQuiz}
       />,
-      ...questions.map((q) => (
+      ...questions.map((q, i) => (
         <ShowQuestion
+          key={i}
           question={q}
           answer={answers[q.id]}
           onNext={this.handleNextQuestion}
