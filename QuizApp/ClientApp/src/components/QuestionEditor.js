@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { actionCreators as questionActionCreators } from '../store/Questions';
-import { actionCreators as viewNameActionCreators } from '../store/ViewName';
-import { actionCreators as showNotificationActionCreators } from '../store/ShowNotification';
 import { Link, withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +9,8 @@ import { Button } from '@material-ui/core';
 
 import AnswerEditor from './AnswerEditor';
 import Notification from './Notification';
+import QuizAPI from '../QuizAPI';
+import sampleData from '../sampleData';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,91 +33,118 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuestionEditor = ({
-  match,
-  isNew,
-  questions,
-  requestQuestion,
-  saveQuestion,
-  setViewName,
-  showNotification,
-  isNotificationOpen,
-  history
-}) => {
+const QuestionEditor = ({ match, isNew, history }) => {
   const classes = useStyles();
   const initialQuestionState = {
-    prompt: '',
-    answers: [
-      {
-        content: '',
-        isCorrect: false,
-      },
-      {
-        content: '',
-        isCorrect: false,
-      },
-      {
-        content: '',
-        isCorrect: false,
-      },
-    ],
+    question: {
+      prompt: '',
+      answers: [
+        {
+          content: '',
+          isCorrect: false,
+        },
+        {
+          content: '',
+          isCorrect: false,
+        },
+        {
+          content: '',
+          isCorrect: false,
+        },
+      ],
+    },
+    error: '',
   };
   const [questionState, setQuestionState] = useState(initialQuestionState);
 
   // mounted
   useEffect(() => {
-    if (isNew) {
-      setViewName('New Question');
-      return;
-    }
-    setViewName('Edit Question');
-    var id = match.params.questionId;
-    if (!questions || !questions.question || questions.question.id !== id) {
-      fetchQuestion(id);
+    const { question } = questionState;
+    const questionId = match.params.questionId;
+    if (!question || question.id !== questionId) {
+      loadQuestion(questionId);
     }
   }, []);
 
-  // update state if question prop changes
-  useEffect(() => {
-    if (isNew) {
-      setQuestionState(initialQuestionState);
-      return;
+  async function loadQuestion(id) {
+    try {
+      const question = await QuizAPI.getQuestion(id);
+      setQuestionState({
+        question,
+        error: '',
+      });
+    } catch (error) {
+      const question = sampleData.questions.find((q) => q.id === Number(id));
+      setQuestionState({
+        question,
+        error,
+      });
     }
-    setQuestionState(questions.question || initialQuestionState);
-  }, [questions]);
-
-  function fetchQuestion(id) {
-    requestQuestion(id);
   }
+
+  // update state if question prop changes
+  // useEffect(() => {
+  //   // if (isNew) {
+  //   //   //setViewName('New Question');
+  //   //   setQuestionState(initialQuestionState);
+  //   //   return;
+  //   // } else {
+  //   //   //setViewName('Edit Question')
+  //   // }
+  //   setQuestionState(question.question || initialQuestionState);
+  // }, [question]);
 
   function handleQuestionChanged(event) {
     const prompt = event.target.value;
-    setQuestionState({ ...questionState, prompt });
+    setQuestionState({
+      question: {
+        ...questionState.question,
+        prompt,
+      },
+      error: '',
+    });
   }
 
   function handleAnswerChanged(index, answer) {
-    const newAnswers = [...questionState.answers];
+    const newAnswers = [...questionState.question.answers];
     newAnswers[index] = answer;
-    questionState.answers = newAnswers;
-    //setQuestionState({ ...questionState, answers: newAnswers });
+    setQuestionState({
+      question: {
+        ...questionState.question,
+        answers: newAnswers,
+      },
+      error: '',
+    });
   }
 
   function handleCloseNotification() {
-    showNotification(false);
+    //showNotification(false);
   }
 
-  function handleSave() {
-    saveQuestion(questionState);
-    history.push('/questions');
+  async function handleSave() {
+    const { question } = questionState;
+    try {
+      const savedQuestion = await QuizAPI.saveQuestion(question);
+    } catch (error) {
+      if (!question.id) {
+        sampleData.questions.push(question);
+      } else {
+        const i = sampleData.questions.findIndex((q) => q.id === question.id);
+        sampleData.questions[i] = question;
+      }
+      // dispatch(showNotificationActionCreators.showNotification(true));
+    } finally {
+      history.push('/questions');
+    }
   }
 
   return (
     <Container justify="center" maxWidth="md">
-      <Notification
-        isOpen={isNotificationOpen.isNotificationOpen}
-        message={questions.error}
-        handleClose={handleCloseNotification}
-      />
+      {/* <Notification
+          isOpen={isNotificationOpen.isNotificationOpen}
+          message={question.error}
+          handleClose={handleCloseNotification}
+        /> */}
       <form className={classes.container} noValidate autoComplete="off">
         <Grid container spacing={4}>
           <Grid item md={12}>
@@ -132,7 +156,7 @@ const QuestionEditor = ({
               rows="5"
               fullWidth
               margin="normal"
-              value={questionState.prompt}
+              value={questionState.question.prompt}
               onChange={handleQuestionChanged}
             />
           </Grid>
@@ -141,21 +165,21 @@ const QuestionEditor = ({
           <Grid item md={4}>
             <AnswerEditor
               index={0}
-              answer={questionState.answers[0]}
+              answer={questionState.question.answers[0]}
               onChange={handleAnswerChanged}
             />
           </Grid>
           <Grid item md={4}>
             <AnswerEditor
               index={1}
-              answer={questionState.answers[1]}
+              answer={questionState.question.answers[1]}
               onChange={handleAnswerChanged}
             />
           </Grid>
           <Grid item md={4}>
             <AnswerEditor
               index={2}
-              answer={questionState.answers[2]}
+              answer={questionState.question.answers[2]}
               onChange={handleAnswerChanged}
             />
           </Grid>
@@ -176,15 +200,5 @@ const QuestionEditor = ({
     </Container>
   );
 };
-export default connect(
-  (state) => state,
-  (dispatch) =>
-    bindActionCreators(
-      {
-        ...questionActionCreators,
-        ...viewNameActionCreators,
-        ...showNotificationActionCreators,
-      },
-      dispatch
-    )
-)(withRouter(QuestionEditor));
+
+export default withRouter(QuestionEditor);

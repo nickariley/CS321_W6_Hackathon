@@ -1,27 +1,38 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actionCreators as quizActionCreators } from '../store/Quizzes';
-import { actionCreators as viewNameActionCreators } from '../store/ViewName';
 
+import QuizAPI from '../QuizAPI';
+import sampleData from '../sampleData';
 import CardGrid from './CardGrid';
 import QuizCard from './QuizCard';
 
 class Home extends React.Component {
 
+  state = {
+    quizzes: [],
+    error: '',
+  };
+
   componentDidMount() {
-    const { setViewName } = this.props;
-    setViewName("Quizzes");
-    this.fetchQuizzes();
+    this.loadQuizzes();
   }
 
-  fetchQuizzes = () => {
-    const { requestQuizzes } = this.props;
-    return requestQuizzes();
+  loadQuizzes = async () => {
+    try {
+      const quizzes = await QuizAPI.getQuizzes();
+      this.setState({
+        quizzes,
+        error: ''
+      })
+    } catch (error) {
+      this.setState({
+        quizzes: sampleData.quizzes,
+        error
+      });
+    }
   }
 
   render() {
-    const { quizzes } = this.props.quizzes;
+    const { quizzes } = this.state;
     return (
       <React.Fragment>
         {/* <Button onClick={this.fetchQuizzes}>Test</Button>
@@ -32,7 +43,4 @@ class Home extends React.Component {
   }
 }
 
-export default connect(
-  (state) => state,
-  (dispatch) => bindActionCreators({ ...viewNameActionCreators, ...quizActionCreators }, dispatch)
-)(Home);
+export default Home;

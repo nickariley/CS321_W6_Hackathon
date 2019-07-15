@@ -18,17 +18,19 @@ namespace QuizApp.Controllers
         }
 
         [HttpGet()]
-        public IEnumerable<QuizModel> Quizzes()
+        public IActionResult Quizzes()
         {
-            throw new System.NotImplementedException();
+            ModelState.AddModelError("GetQuizzes", "Not Implemented!");
+            return ValidationProblem(ModelState);
             //var quizzes = _quizService.GetAll().ToList();
             //return quizzes.ToApiModels();
         }
 
         [HttpGet("{id}")]
-        public QuizModel Quizzes(int id)
+        public IActionResult Quizzes(int id)
         {
-            throw new System.NotImplementedException();
+            ModelState.AddModelError("GetQuiz", "Not Implemented!");
+            return ValidationProblem(ModelState);
             //var quiz = _quizService.Get(id);
             //return quiz.ToApiModel();
         }

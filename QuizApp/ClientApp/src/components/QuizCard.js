@@ -1,14 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../store/Quiz';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-// import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -41,15 +37,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const QuizCard = ({ item = {}, history, requestQuiz }) => {
+const QuizCard = ({ item = {} }) => {
   const classes = useStyles();
   const Badge = () => <Avatar className={classes.purpleAvatar}>C#</Avatar>;
-  // const classes = useStyles();
-
-  const takeQuiz = () => {
-    requestQuiz(item.id);
-    history.push(`/take-quiz/${item.id}`);
-  };
 
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -83,7 +73,7 @@ const QuizCard = ({ item = {}, history, requestQuiz }) => {
           </Grid>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary" onClick={takeQuiz}>
+          <Button size="small" color="primary" component={Link} to={`/take-quiz/${item.id}`} >
             Take It!
           </Button>
           {/* <Button size="small" color="primary">
@@ -97,7 +87,8 @@ const QuizCard = ({ item = {}, history, requestQuiz }) => {
 
 //export default withRouter(QuizCard);
 
-export default connect(
-  (state) => state,
-  (dispatch) => bindActionCreators(actionCreators, dispatch)
-)(withRouter(QuizCard));
+// export default connect(
+//   (state) => state,
+//   (dispatch) => bindActionCreators(actionCreators, dispatch)
+// )(withRouter(QuizCard));
+export default QuizCard;

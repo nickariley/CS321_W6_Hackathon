@@ -1,9 +1,4 @@
-import React, { useEffect } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { actionCreators as questionActionCreators } from '../store/Questions';
-import { actionCreators as viewNameActionCreators } from '../store/ViewName';
-import { actionCreators as showNotificationActionCreators } from '../store/ShowNotification';
+import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -23,6 +18,8 @@ import QuestionIcon from '@material-ui/icons/Help';
 import { Button } from '@material-ui/core';
 
 import Notification from './Notification';
+import QuizAPI from '../QuizAPI';
+import sampleData from '../sampleData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,39 +40,62 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const QuestionList = ({
-  questions,
-  requestQuestions,
   setViewName,
-  showNotification,
-  isNotificationOpen,
-  deleteQuestion
+  // showNotification,
+  // isNotificationOpen,
 }) => {
   const classes = useStyles();
+
+  const [questionsState, setQuestionsState] = useState({
+    questions: [],
+    error: ''
+  });
+
   useEffect(() => {
-    setViewName('Questions');
-    fetchQuestions();
+    // setViewName('Questions');
+    // fetchQuestions();
+    loadQuestions();
   }, []);
 
-  function fetchQuestions() {
-    return requestQuestions();
+  // function fetchQuestions() {
+  //   return requestQuestions();
+  // }
+
+  async function loadQuestions() {
+    try {
+      const questions = await QuizAPI.getQuestions();
+      setQuestionsState({
+        questions,
+        error: ''
+      });
+    } catch (error) {
+      setQuestionsState({
+        questions: sampleData.questions,
+        error
+      });
+    }
+
   }
 
   function handleCloseNotification() {
-    showNotification(false);
+    //showNotification(false);
+  }
+
+  function handleEdit(id) {
+    //requestQuestion(id);
   }
 
   function handleDelete(id) {
-    deleteQuestion(id);
-    
+    //deleteQuestion(id);
   }
 
   return (
     <Container justify="center" maxWidth="md">
-      <Notification
+      {/* <Notification
         isOpen={isNotificationOpen.isNotificationOpen}
         message={questions.error}
         handleClose={handleCloseNotification}
-      />
+      /> */}
       <Grid item xs={12} md={12}>
         <Grid container alignItems="center" justify="space-between">
           <Grid item md={10}>
@@ -98,7 +118,7 @@ const QuestionList = ({
         </Grid>
         <div className={classes.demo}>
           <List dense={false}>
-            {questions.questions.map((q, i) => (
+            {questionsState.questions.map((q, i) => (
               <ListItem key={i}>
                 <ListItemIcon>
                   <QuestionIcon />
@@ -110,10 +130,11 @@ const QuestionList = ({
                 <ListItemSecondaryAction>
                   <IconButton
                     edge="end"
-                    aria-label="Delete"
+                    aria-label="Edit"
                     className={classes.button}
                     component={Link}
                     to={`/edit-question/${q.id}`}
+                    onClick={() => handleEdit(q.id)}
                   >
                     <EditIcon />
                   </IconButton>
@@ -135,15 +156,4 @@ const QuestionList = ({
   );
 };
 
-export default connect(
-  (state) => state,
-  (dispatch) =>
-    bindActionCreators(
-      {
-        ...questionActionCreators,
-        ...viewNameActionCreators,
-        ...showNotificationActionCreators,
-      },
-      dispatch
-    )
-)(QuestionList);
+export default QuestionList;

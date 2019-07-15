@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter, Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login({ logIn }) {
+const Login = ({ appState, logIn, history }) => {
   const classes = useStyles();
   const [loginInfo, setLoginInfo] = useState({ email: '', password: '' });
 
@@ -48,7 +49,10 @@ export default function Login({ logIn }) {
 
   function handleLogin(event) {
     logIn(loginInfo);
-    event.preventDefault();
+  }
+
+  if (appState.user.loggedIn) {
+    return <Redirect to="/"/>
   }
 
   return (
@@ -60,7 +64,7 @@ export default function Login({ logIn }) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleLogin}>
+        {/* <form className={classes.form} noValidate onSubmit={(e) => e.preventDefault()} > */}
           <TextField
             variant="outlined"
             margin="normal"
@@ -92,12 +96,13 @@ export default function Login({ logIn }) {
             label="Remember me"
           /> */}
           <Button
-            type="submit"
+            // type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            // onClick={handleLogin}
+            onClick={handleLogin}
           >
             Sign In
           </Button>
@@ -113,8 +118,10 @@ export default function Login({ logIn }) {
               </Link>
             </Grid>
           </Grid>
-        </form>
+        {/* </form> */}
       </div>
     </Container>
   );
 }
+
+export default withRouter(Login);

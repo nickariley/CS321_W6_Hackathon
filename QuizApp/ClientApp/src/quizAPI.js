@@ -1,4 +1,5 @@
 import TokenHelper from './TokenHelper';
+import sampleData from './sampleData';
 
 const fetchAndThrow = async (uri, options) => {
   const response = await fetch(uri, options);
@@ -62,10 +63,11 @@ class QuizApi {
     return fetchJson(uri, options);
   }
 
-  static getQuizzes() {
-    const uri = `api/quizzes`;
-    const options = {};
-    return fetchJson(uri, options);
+  static async getQuizzes() {
+    
+      const uri = `api/quizzes`;
+      const options = {};
+      return await fetchJson(uri, options);        
   }
 
   static getQuiz(quizId) {

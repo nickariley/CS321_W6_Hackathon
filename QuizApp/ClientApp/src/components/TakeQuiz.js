@@ -1,7 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../store/Quiz';
 import { withRouter } from 'react-router-dom';
 
 import StartQuiz from './StartQuiz';
@@ -9,22 +6,43 @@ import EndQuiz from './EndQuiz';
 import ShowQuestion from './ShowQuestion';
 import Stepper from './Stepper';
 
+import QuizAPI from '../QuizAPI';
+import sampleData from '../sampleData';
+
 class TakeQuiz extends React.Component {
   state = {
     questionIndex: 0,
     answers: {},
+    quiz: {}
+  };
+
+  loadQuiz = async (id) => {
+    try {
+      const quiz = await QuizAPI.getQuiz(id);
+      this.setState({
+        quiz,
+        error: ''
+      })
+    } catch (error) {
+      console.log('loadQuiz error', id);
+      const quiz = sampleData.quizzes.find(q => q.id === Number(id));
+      this.setState({
+        quiz,
+        error
+      });
+    }
   };
 
   componentDidMount() {
-    const { quiz } = this.props;
+    const { quiz } = this.state;
     const quizId = this.props.match.params.quizId;
     if (!quiz || quiz.id !== quizId) {
-      this.props.requestQuiz(quizId);
+      this.loadQuiz(quizId);
     }
   }
 
   getQuestions = () => {
-    const { quiz } = this.props;
+    const { quiz } = this.state;
     if (!quiz || !quiz.questions) return [];
     return [...quiz.questions.map((q) => ({ ...q }))];
   };
@@ -73,7 +91,7 @@ class TakeQuiz extends React.Component {
 
   render() {
     const { questionIndex, answers } = this.state;
-    const { quiz } = this.props;
+    const { quiz } = this.state;
     const questions = this.getQuestions();
     const questionCards = [
       <StartQuiz
@@ -88,7 +106,6 @@ class TakeQuiz extends React.Component {
           answer={answers[q.id]}
           onNext={this.handleNextQuestion}
           onAnswerSelected={this.handleAnswerSelected}
-          // onSubmitted={this.handleQuestionSubmitted}
         />
       )),
       <EndQuiz
@@ -111,7 +128,4 @@ class TakeQuiz extends React.Component {
   }
 }
 
-export default connect(
-  (state) => state.quiz,
-  (dispatch) => bindActionCreators(actionCreators, dispatch)
-)(withRouter(TakeQuiz));
+export default withRouter(TakeQuiz);

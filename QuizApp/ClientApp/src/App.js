@@ -1,49 +1,49 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 import TokenHelper from './TokenHelper';
 import QuizAPI from './QuizAPI';
-import { actionCreators as userActionCreators } from './store/User';
 
 import Layout from './components/Layout';
 import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
 import TakeQuiz from './components/TakeQuiz';
 import QuestionList from './components/QuestionList';
 import QuestionEditor from './components/QuestionEditor';
 import Login from './components/Login';
 import Register from './components/Register';
 
-const App = ({ history, setUser }) => {
+const App = ({ history }) => {
+  
+  const [user, setUser] = useState({
+    loggedIn: false,
+    email: ''
+  });
 
   useEffect(() => {
     QuizAPI.verifyToken()
       .then((token) => {
         setUser({
           loggedIn: true,
-          email: token.email
-        });  
+          email: token.email,
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         setUser({
           loggedIn: false,
-          email: ''
-        });  
+          email: '',
+        });
       });
   }, []);
 
   function logIn(loginModel) {
-    QuizAPI.login(loginModel).then((res) => {
-      history.push('/');
+    return QuizAPI.login(loginModel).then((res) => {
       TokenHelper.setToken(res);
       setUser({
         loggedIn: true,
         email: loginModel.email,
       });
+      return user;
     });
   }
 
@@ -51,7 +51,7 @@ const App = ({ history, setUser }) => {
     TokenHelper.removeToken();
     setUser({
       loggedIn: false,
-      email: ''
+      email: '',
     });
   }
 
@@ -62,8 +62,7 @@ const App = ({ history, setUser }) => {
   }
 
   return (
-    <Layout logOut={logOut}>
-      <Route exact path="/" component={Home} />
+    <Layout user={user} logOut={logOut}>
       <Route exact path="/login" component={() => <Login logIn={logIn} />} />
       <Route
         exact
@@ -82,13 +81,14 @@ const App = ({ history, setUser }) => {
         path="/edit-question/:questionId"
         component={() => <QuestionEditor isNew={false} />}
       />
-      <Route path="/counter" component={Counter} />
-      <Route path="/fetch-data/:startDateIndex?" component={FetchData} />
+      <Route
+        exact
+        path="/quizzes"
+        component={() => <Home  />}
+      />
+      <Route exact path="/" component={() => <Home  />} />
     </Layout>
   );
 };
 
-export default connect(
-  (state) => state,
-  (dispatch) => bindActionCreators(userActionCreators, dispatch)
-)(withRouter(App));
+export default withRouter(App);
