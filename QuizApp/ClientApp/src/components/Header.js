@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -25,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ viewName, user, logOut }) => {
   const classes = useStyles();
-  // const classes = useStyles();
   return (
     <AppBar position="relative">
       <Toolbar>
@@ -44,7 +42,7 @@ const Header = ({ viewName, user, logOut }) => {
           noWrap
           className={classes.title}
         >
-          {viewName.viewName}
+          {viewName && viewName.viewName}
         </Typography>
         <Button
           className={classes.button}
@@ -87,6 +85,5 @@ const Header = ({ viewName, user, logOut }) => {
   );
 };
 
-//export default Header;
+export default Header;
 
-export default connect((state) => state)(Header);

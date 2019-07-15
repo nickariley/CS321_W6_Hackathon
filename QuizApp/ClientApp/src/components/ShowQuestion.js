@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -101,4 +100,4 @@ const ShowQuestion = ({
   );
 };
 
-export default connect()(ShowQuestion);
+export default ShowQuestion;

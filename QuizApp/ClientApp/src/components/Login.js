@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = ({ appState, logIn, history }) => {
+const Login = ({ user, logIn, history }) => {
   const classes = useStyles();
   const [loginInfo, setLoginInfo] = useState({ email: '', password: '' });
 
@@ -51,7 +51,7 @@ const Login = ({ appState, logIn, history }) => {
     logIn(loginInfo);
   }
 
-  if (appState.user.loggedIn) {
+  if (user.loggedIn) {
     return <Redirect to="/"/>
   }
 

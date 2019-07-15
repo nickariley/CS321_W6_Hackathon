@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import HeroUnit from './HeroUnit';
 
 const EndQuiz = ({ quiz, answers, onStartOver, onFindAnotherQuiz }) => {
@@ -32,4 +31,4 @@ const EndQuiz = ({ quiz, answers, onStartOver, onFindAnotherQuiz }) => {
   );
 };
 
-export default connect()(EndQuiz);
+export default EndQuiz;

@@ -19,7 +19,6 @@ const App = ({ history }) => {
     loggedIn: false,
     email: ''
   });
-
   useEffect(() => {
     QuizAPI.verifyToken()
       .then((token) => {
@@ -27,6 +26,7 @@ const App = ({ history }) => {
           loggedIn: true,
           email: token.email,
         });
+        console.log('token verified');
       })
       .catch((error) => {
         setUser({
@@ -63,7 +63,7 @@ const App = ({ history }) => {
 
   return (
     <Layout user={user} logOut={logOut}>
-      <Route exact path="/login" component={() => <Login logIn={logIn} />} />
+      <Route exact path="/login" component={() => <Login user={user} logIn={logIn} />} />
       <Route
         exact
         path="/register"

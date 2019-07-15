@@ -85,10 +85,4 @@ const QuizCard = ({ item = {} }) => {
   );
 };
 
-//export default withRouter(QuizCard);
-
-// export default connect(
-//   (state) => state,
-//   (dispatch) => bindActionCreators(actionCreators, dispatch)
-// )(withRouter(QuizCard));
 export default QuizCard;

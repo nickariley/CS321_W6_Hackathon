@@ -1,7 +1,4 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { actionCreators } from '../store/Counter';
 
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
@@ -51,7 +48,4 @@ const AnswerEditor = ({ index, answer, isNew, onChange }) => {
     </Container>
   );
 };
-export default connect(
-  (state) => state,
-  (dispatch) => bindActionCreators(actionCreators, dispatch)
-)(AnswerEditor);
+export default AnswerEditor;
