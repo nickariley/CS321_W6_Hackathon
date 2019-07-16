@@ -1,10 +1,13 @@
 import React from 'react';
+
+import { Markdown } from 'react-markdown-tree';
+
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-
 import Container from '@material-ui/core/Container';
+
 import AnswerCards from './AnswerCards';
 import AnswerCard from './AnswerCard';
 import { Link } from 'react-router-dom';
@@ -56,9 +59,10 @@ const ShowQuestion = ({
   return (
     <div className={classes.heroContent}>
       <Container maxWidth="md">
-        <Typography variant="h5" align="center" color="textSecondary" paragraph>
+        {/* <Typography variant="h5" align="center" color="textSecondary" paragraph>
           {question.prompt}
-        </Typography>
+        </Typography> */}
+        <Markdown>{question.prompt}</Markdown>
         <AnswerCards>
           {question.answers.map((a, i) => (
             <AnswerCard
