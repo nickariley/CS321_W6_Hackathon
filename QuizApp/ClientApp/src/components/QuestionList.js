@@ -69,7 +69,6 @@ const QuestionList = ({
       });
       setIsNotificationOpen(true);
     }
-
   }
 
   async function deleteQuestion(questionId) {
@@ -84,7 +83,6 @@ const QuestionList = ({
       });
       setIsNotificationOpen(true);
     }
-
   }
 
   function handleCloseNotification() {
