@@ -122,22 +122,21 @@ const QuestionEditor = ({ match, isNew, history, setViewName }) => {
     try {
       const savedQuestion = await QuizAPI.saveQuestion(question);
     } catch (error) {
-      if (!question.id) {
-        sampleData.questions.push(question);
-      } else {
-        const i = sampleData.questions.findIndex((q) => q.id === question.id);
-        sampleData.questions[i] = question;
-      }
-      // dispatch(showNotificationActionCreators.showNotification(true));
+      // if (!question.id) {
+      //   sampleData.questions.push(question);
+      // } else {
+      //   const i = sampleData.questions.findIndex((q) => q.id === question.id);
+      //   sampleData.questions[i] = question;
+      // }
       setQuestionState({
         question,
-        error: `Unable to POST or PUT /api/questions. Using sample data.`
+        error: `Unable to POST or PUT /api/questions. ${error} `
       });
       setIsNotificationOpen(true);
     } finally {
-      setTimeout(() => {
-        history.push('/questions');
-      }, 1000);
+      // setTimeout(() => {
+      //   history.push('/questions');
+      // }, 1000);
     }
   }
 

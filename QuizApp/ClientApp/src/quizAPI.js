@@ -1,10 +1,10 @@
 import TokenHelper from './TokenHelper';
-import sampleData from './sampleData';
 
 const fetchAndThrow = async (uri, options) => {
   const response = await fetch(uri, options);
   if (!response.ok) {
-    throw Error(response.statusText);
+    const data = await response.text();
+    throw Error(response.statusText + ' ' + data);
   }
   return response;
 };

@@ -41,10 +41,11 @@ namespace QuizApp.Infrastructure.Data
             // loop thru all of the answers in the updated question
             foreach(var updatedAnswer in updatedItem.Answers)
             {
-                // update existing answers
+                // find the existing answer that corresponds to the updated answer
                 var existingAnswer = existingItem.Answers
                 .Where(a => a.Id == updatedAnswer.Id)
                 .SingleOrDefault();
+                // update existing answer from updated answer
                 _dbContext.Entry(existingAnswer)
                     .CurrentValues
                     .SetValues(updatedAnswer);
