@@ -122,17 +122,18 @@ Note that there is no equivalent to QuizQuestion in the ApiModels. In the ApiMod
 
 ## Instructions
 
-You are given a database with data and user authentication is already implemented.
+You are given an existing database with data, and user authentication is already implemented. 
 
 The following tasks need to be completed. 
 
-_Note: Many of the tasks are intentionally vague, but nearly everything in this project is work you've done before. If
+**Note:** Many of the tasks are intentionally vague, but nearly everything in this project is work you've done before. If
 there is anything new, it will be called out in the instructions or in TODOs in the code.
 
 1. Implement the domain model classes in the Core project. The classes already exist, but you must fill in the correct properties according to the design shown above. Tne names and types are important so the model will match up with the existing database.
 
 1. In the Infrastructure project, implement a QuizRespository based on the given IQuizRepository interface.
    1. The Get() and GetAll() methods should Include() QuizQuestions AND ThenInclude() both Questions and Answers.
+
 1. Implement a QuestionRepository based on the given IQuestionRespository interface.
    1. The Get() and GetAll() methods should Include() the related Answers when returning a Question.
    1. Implement the Add() and Remove() methods as you have in previous projects.
@@ -177,33 +178,38 @@ there is anything new, it will be called out in the instructions or in TODOs in 
 1. In the Core project, implement a QuizService based on the given IQuizService interface. 
    1. It should use IQuizRepository to access the database.
    1. Note that only Get() and GetAll() are required for this service. The app does not support adding or updating quizzes.
+
 1. In the Core project, implement a QuestionService based on the given IQuestionService interface. It should use IQuestionRepository to access the database.
    1. This service should follow the same pattern that you've used in other projects. It has all of the standard CRUDL methods.
    1. The Add() and Update() methods should ensure that the Question and Answers are valid.
       1. Each question should have exactly one correct answer. If there are none, or more than one, throw a validation error.
 
 1. In the ApiModels folder, complete the implementation of the ApiModel classes.
+
 1. In the ApiModels folder of the main project, complete the implementation of mapping extensions. See the TODOs in each file.
    1. AnswerMappingExtensions
    1. QuestionMappingExtensions
    1. QuizMappingExtensions
+
 1. In the main project, finish the implementation of QuizzesController. 
    1. Replace the Not Implemented validation errors with the proper implementation.
    1. Anyone should be able to retrieve Quizzes, even if they're not logged in.
    > NOTE: Only two GET actions are needed for this project. Adding/updating/deleting quizzes is not supported.
+
 1. In the main project. finish the implementation of QuestionsController. Replace the Not Implemented validation errors with the proper implementation.
    1. Add() and Update() should catch exceptions and return ModelState errors if exceptions occur.
    1. The POST, PUT, and DELETE actions should only be accessible by authenticated users.
    1. The GET actions can be accessible to anyone, even if they're not logged in.
+
 1. Remember to configure dependency injection of services, repositories, and DbContext in Startup.ConfigureServices.
 
 ## Push Yourself Further
 
-1. Implement a GET /api/random-quiz route that returns a new quiz with 5 randomly selected questions.
+1. Implement a GET /api/quizzes/random route that returns a new quiz with 5 randomly selected questions.
    1. You will need to retrieve all questions and then randomly select 5 of them. HINT: Research how to generate random numbers in C#.
-   1. The Quiz does not need to be stored in the database. You can just create a new Quiz object and populate the Answers collection with random questions.
+   1. The Quiz does not need to be stored in the database. You can just create a new Quiz object and populate the Answers collection with random questions, and then return it.
 1. Even further...
-   1. Don't allow the same question to picked more than once.
+   1. Don't allow duplicate questions in a random quiz.
 
 ## QA
 
@@ -211,13 +217,10 @@ When all of the above tasks are completed, you should be able to do the followin
 
 1. You should be able to register a new user and sign in.
 1. The Quizzes page should list all quizzes in the database, without giving a warning.
-   1. The page should show quizzes even if you are not logged in.
+1. The Quizzes page should show quizzes even if you are not logged in.
 1. You should be able to take a quiz, even if you are not logged in.
 1. The Questions page should list all questions in the database, without giving a warning.
 1. If you are signed in, you should be able to add a new Question. If you are not, it should show a Forbidden error when attempting to save.
 1. If you are signed in, you should be able to update a Question. If not, it should show a Forbidden warning.
 1. If add or update a question, it should only be allowed to have one correct answer. You should get a BadRequest warning if there are none or more than one.
 
-## Summary
-
-When complete, there should be a fully functioning API integrated with an external MySQL database. This is most of the work required to create an API. Congratulations!
