@@ -18,7 +18,7 @@ namespace QuizApp.Controllers
         }
 
         [HttpGet()]
-        public IActionResult Quizzes()
+        public IActionResult GetQuizzes()
         {
             //ModelState.AddModelError("GetQuizzes", "Not Implemented!");
             //return BadRequest(ModelState);
@@ -27,7 +27,7 @@ namespace QuizApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Quizzes(int id)
+        public IActionResult GetQuiz(int id)
         {
             //ModelState.AddModelError("GetQuiz", "Not Implemented!");
             //return BadRequest(ModelState);
@@ -35,5 +35,16 @@ namespace QuizApp.Controllers
             return Ok(quiz.ToApiModel());
         }
 
+        // OPTIONAL - PUSH YOURSELF FURTHER
+        // Implement a controller action that will return
+        // a quiz containing five randomly selected questions.
+        [HttpGet("random")]
+        public IActionResult GetRandomQuiz(int id)
+        {
+            //ModelState.AddModelError("GetRandomQuiz", "Not Implemented!");
+            //return BadRequest(ModelState);
+            var quiz = _quizService.GetRandomQuiz();
+            return Ok(quiz.ToApiModel());
+        }
     }
 }
