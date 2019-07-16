@@ -7,11 +7,10 @@ import QuizCard from './QuizCard';
 import Notification from './Notification';
 
 class Home extends React.Component {
-
   state = {
     quizzes: [],
     error: '',
-    isNotificationOpen: false
+    isNotificationOpen: false,
   };
 
   componentDidMount() {
@@ -24,35 +23,45 @@ class Home extends React.Component {
       const quizzes = await QuizAPI.getQuizzes();
       this.setState({
         quizzes,
-        error: ''
-      })
+        error: '',
+      });
     } catch (error) {
       this.setState({
         quizzes: sampleData.quizzes,
         error: 'Unable to GET /api/quizzes. ' + error + '. Using sample data.',
-        isNotificationOpen: true
+        isNotificationOpen: true,
       });
     }
-  }
+  };
 
   handleCloseNotification = () => {
     this.setState({
-      isNotificationOpen: false
+      isNotificationOpen: false,
     });
-  }
+  };
 
   render() {
     const { quizzes, error, isNotificationOpen } = this.state;
     return (
       <React.Fragment>
-      <Notification
-        isOpen={isNotificationOpen}
-        message={error}
-        handleClose={this.handleCloseNotification}
-      />
+        <Notification
+          isOpen={isNotificationOpen}
+          message={error}
+          handleClose={this.handleCloseNotification}
+        />
         {/* <Button onClick={this.fetchQuizzes}>Test</Button>
         <HeroUnit /> */}
-        <CardGrid items={quizzes} component={QuizCard} />
+        <CardGrid
+          items={[
+            ...quizzes,
+            {
+              id: 'random',
+              title: 'Random Quiz',
+              description: 'This quiz contains randomly selected questions.',
+            },
+          ]}
+          component={QuizCard}
+        />
       </React.Fragment>
     );
   }

@@ -33,16 +33,57 @@ class TakeQuiz extends React.Component {
     }
   };
 
+  getRandomQuiz = async () => {
+    try {
+      const quiz = await QuizAPI.getRandomQuiz();
+      this.setState({
+        quiz,
+        error: ''
+      })
+    } catch (error) {
+      const quiz = this.createRandomQuizFromSampleData();
+      this.setState({
+        quiz,
+        error
+      });
+    }
+  }
+
+  getRandomInt = (max) => {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  createRandomQuizFromSampleData = () => {
+    const newQuiz = {
+      id: 0,
+      title: 'Random Quiz',
+      description: 'This quiz contains randomly selected questions.',
+      instructions:'',
+      questions: []
+    };
+    for (let index = 0; index < 5; index++) {
+      const randomIndex = this.getRandomInt(sampleData.questions.length - 1);
+      console.log('randomIndex', randomIndex);
+      const q = sampleData.questions[randomIndex];
+      newQuiz.questions.push(q);
+    }
+    console.log('random quiz', newQuiz);
+    return newQuiz;
+  }
+
   componentDidMount() {
     const { quiz } = this.state;
     const quizId = this.props.match.params.quizId;
-    if (!quiz || quiz.id !== quizId) {
+    if (quizId === 'random') {
+      this.getRandomQuiz();
+    } else if (!quiz || quiz.id !== quizId) {
       this.loadQuiz(quizId);
     }
   }
 
   getQuestions = () => {
     const { quiz } = this.state;
+console.log('getQs', quiz);
     if (!quiz || !quiz.questions) return [];
     return [...quiz.questions.map((q) => ({ ...q }))];
   };
@@ -92,7 +133,8 @@ class TakeQuiz extends React.Component {
   render() {
     const { questionIndex, answers } = this.state;
     const { quiz } = this.state;
-    const questions = this.getQuestions();
+    const questions = quiz.questions || []; // this.getQuestions();
+console.log('questions render', questions, quiz);
     const questionCards = [
       <StartQuiz
         quiz={quiz}

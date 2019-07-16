@@ -73,13 +73,18 @@ class QuizApi {
       return await fetchJson(uri, options);        
   }
 
-  static getQuiz(quizId) {
+  static async getQuiz(quizId) {
     const uri = `api/quizzes/${quizId}`;
     const options = {};
-    return fetchJson(uri, options);
+    return await fetchJson(uri, options);
   }
 
-  static getRandomQuiz() {}
+  static async getRandomQuiz() {
+    
+    const uri = `api/quizzes/random`;
+    const options = {};
+    return await fetchJson(uri, options);        
+  }
 
   static login(loginInfo) {
     const uri = `api/auth/login`;
