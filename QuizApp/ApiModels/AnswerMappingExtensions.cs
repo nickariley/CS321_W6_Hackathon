@@ -28,7 +28,8 @@ namespace QuizApp.ApiModels
 			{
 				Id = item.Id,
                 Content = item.Content,
-                QuestionId = item.QuestionId
+                QuestionId = item.QuestionId,
+                IsCorrect = item.IsCorrect
 			};
 		}
 

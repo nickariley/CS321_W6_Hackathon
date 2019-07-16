@@ -8,9 +8,10 @@ namespace QuizApp.Core.Services
     {
         IQueryable<T> Entities { get; }
 
-        void Add(T entity);
+        T Add(T entity);
         T Get(TKey id);
         IEnumerable<T> GetAll();
+        T Update(T entity);
         void Remove(T entity);
     }
 }

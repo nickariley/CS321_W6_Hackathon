@@ -29,7 +29,7 @@ class Home extends React.Component {
     } catch (error) {
       this.setState({
         quizzes: sampleData.quizzes,
-        error: 'Unable to GET /api/quizzes. Using sample data.',
+        error: 'Unable to GET /api/quizzes. ' + error + '. Using sample data.',
         isNotificationOpen: true
       });
     }

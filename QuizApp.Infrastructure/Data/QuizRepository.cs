@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using QuizApp.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using QuizApp.Core.Services;
 
 namespace QuizApp.Infrastructure.Data
 {
-    public class QuizRepository : Repository<Quiz, int>
+    public class QuizRepository : Repository<Quiz, int>, IQuizRepository
     {
         public QuizRepository(AppDbContext dbContext) : base(dbContext)
         {

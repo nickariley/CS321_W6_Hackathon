@@ -76,6 +76,7 @@ const QuestionList = ({
     try {
       const result = await QuizAPI.deleteQuestion(questionId);
     } catch (error) {
+      console.log(error);
       setQuestionsState({
         questions: sampleData.questions.filter(q => q.id !== questionId),
         error: 'Unable to DELETE /api/questions. Using sample data.'

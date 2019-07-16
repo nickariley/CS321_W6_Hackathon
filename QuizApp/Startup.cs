@@ -28,7 +28,10 @@ namespace QuizApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddScoped<IQuizService, QuizService>();
 
             services.AddIdentity<User, IdentityRole>()

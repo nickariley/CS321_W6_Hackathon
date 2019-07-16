@@ -9,8 +9,8 @@ namespace QuizApp.Infrastructure.Data
 {
     public class Repository<T, TKey> : IRepository<T, TKey> where T : class, IEntity<TKey>
     {
-        private readonly AppDbContext _dbContext;
-        private DbSet<T> _dbSet => _dbContext.Set<T>();
+        protected readonly AppDbContext _dbContext;
+        protected DbSet<T> _dbSet => _dbContext.Set<T>();
 
         public IQueryable<T> Entities => _dbSet;
 
@@ -19,9 +19,11 @@ namespace QuizApp.Infrastructure.Data
             _dbContext = dbContext;
         }
 
-        public virtual void Add(T entity)
+        public virtual T Add(T entity)
         {
             _dbSet.Add(entity);
+            _dbContext.SaveChanges();
+            return entity;
         }
 
         public virtual T Get(TKey id)
@@ -42,12 +44,14 @@ namespace QuizApp.Infrastructure.Data
                .CurrentValues
                .SetValues(updatedItem);
             _dbSet.Update(existingItem);
+            _dbContext.SaveChanges();
             return existingItem;
         }
 
         public virtual void Remove(T entity)
         {
             _dbSet.Remove(entity);
+            _dbContext.SaveChanges();
         }
     }
 }

@@ -60,7 +60,7 @@ class QuizApi {
     const options = {
       method: 'DELETE',
     };
-    return fetchJson(uri, options);
+    return fetchAndThrow(uri, options);
   }
 
   static async getQuizzes() {

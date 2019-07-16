@@ -6,22 +6,22 @@ namespace QuizApp.Core.Services
 {
     public class QuizService : IQuizService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IQuizRepository _quizRepo;
 
-        public QuizService(IUnitOfWork unitOfWork)
+        public QuizService(IQuizRepository quizRepo)
         {
-            _unitOfWork = unitOfWork;
+            _quizRepo = quizRepo;
         }
 
         public Quiz Get(int id)
         {
-            var quiz = _unitOfWork.Quizzes.Get(id);
+            var quiz = _quizRepo.Get(id);
             return quiz;
         }
 
         public IEnumerable<Quiz> GetAll()
         {
-            var quizzes = _unitOfWork.Quizzes.GetAll();
+            var quizzes = _quizRepo.GetAll();
             return quizzes;
         }
     }

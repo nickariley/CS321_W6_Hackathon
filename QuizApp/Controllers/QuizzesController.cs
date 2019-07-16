@@ -20,19 +20,19 @@ namespace QuizApp.Controllers
         [HttpGet()]
         public IActionResult Quizzes()
         {
-            ModelState.AddModelError("GetQuizzes", "Not Implemented!");
-            return ValidationProblem(ModelState);
-            //var quizzes = _quizService.GetAll().ToList();
-            //return quizzes.ToApiModels();
+            //ModelState.AddModelError("GetQuizzes", "Not Implemented!");
+            //return ValidationProblem(ModelState);
+            var quizzes = _quizService.GetAll().ToList();
+            return Ok(quizzes.ToApiModels());
         }
 
         [HttpGet("{id}")]
         public IActionResult Quizzes(int id)
         {
-            ModelState.AddModelError("GetQuiz", "Not Implemented!");
-            return ValidationProblem(ModelState);
-            //var quiz = _quizService.Get(id);
-            //return quiz.ToApiModel();
+            //ModelState.AddModelError("GetQuiz", "Not Implemented!");
+            //return ValidationProblem(ModelState);
+            var quiz = _quizService.Get(id);
+            return Ok(quiz.ToApiModel());
         }
 
     }
