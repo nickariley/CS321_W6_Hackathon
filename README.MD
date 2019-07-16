@@ -41,7 +41,7 @@ In order for the UI to work, the following API routes must be implemented and sh
 1. PUT /api/questions/{id}
 1. DELETE /api/questions/{id}
 
-1. (OPTIONAL) GET /api/random-quiz 
+1. (OPTIONAL) GET /api/quizzes/random
 
 ## Domain Model Design
 
