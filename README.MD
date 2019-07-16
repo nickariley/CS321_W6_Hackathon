@@ -45,15 +45,80 @@ In order for the UI to work, the following API routes must be implemented and sh
 
 ## Domain Model Design
 
-The domain model should have the following entities with the properties shown.
+The domain model should have the following entities with the properties shown. Be careful with spelling. The property names must match the field in the existing database.
 
-TODO: list entities and properties
+#### Answer
+Answer should have the following properties:
+```
+    int Id 
+    string Content 
+    bool IsCorrect 
+    int QuestionId 
+    Question Question 
+```
+
+#### Question
+Question should have the following properties:
+```
+    int Id
+    string QuestionType
+    string Prompt
+    ICollection<Answer> Answers
+    ICollection<QuizQuestion> QuizQuestions
+```
+#### Quiz
+Quiz should have the following properties:
+```
+    int Id 
+    string Title 
+    string Description 
+    string Instructions 
+    ICollection<QuizQuestion> QuizQuestions 
+```
+#### QuizQuestion
+QuizQuestion should have the following properties:
+```
+    int QuizId
+    Quiz Quiz
+    int QuestionId
+    Question Question
+```
+
+#### User
+The User domain model is already implemented for you.
 
 ## API Model Design
 
 You'll have to create the following ApiModels.
 
-TODO: list api models and props
+#### Login-related Models
+LoginModel, RegistrationModel and UserModel are already implemented for you.
+
+#### QuizModel
+```
+    int Id 
+    string Title 
+    string Description 
+    string Instructions 
+    IEnumerable<QuestionModel> Questions 
+```
+#### QuestionModel
+```
+    int Id
+    string QuestionType
+    string Prompt
+    IEnumerable<AnswerModel> Answers
+```
+
+#### AnswerModel
+```
+    int Id 
+    int QuestionId 
+    string Content 
+    bool IsCorrect 
+```
+
+Note that there is no equivalent to QuizQuestion in the ApiModels. In the ApiModel, a Quiz directly owns a collection of Questions. In the domain model, there is an intermediate class called QuizQuestion in between Quiz and Question. This allows questions to be "attached" to multiple quizzes. The instructor can elaborate on this pattern.
 
 ## Instructions
 
