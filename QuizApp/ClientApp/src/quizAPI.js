@@ -28,6 +28,7 @@ class QuizApi {
   }
 
   static saveQuestion(question) {
+    const token = TokenHelper.getToken();
     const body = JSON.stringify(question);
     let uri, options;
     // new
@@ -38,6 +39,7 @@ class QuizApi {
         body,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'bearer ' + token.token
         },
       };
     } else {
@@ -48,6 +50,7 @@ class QuizApi {
         body,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'bearer ' + token.token
         },
       };
     }

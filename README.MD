@@ -57,7 +57,9 @@ TODO: list api models and props
 
 ## Instructions
 
-The following tasks need to be completed.
+You are given a database with data and user authentication is already implemented.
+
+The following tasks need to be completed. 
 
 _Note: Many of the tasks are intentionally vague, but nearly everything in this project is work you've done before. If
 there is anything new, it will be called out in the instructions or in TODOs in the code.

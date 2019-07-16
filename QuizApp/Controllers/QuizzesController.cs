@@ -21,7 +21,7 @@ namespace QuizApp.Controllers
         public IActionResult Quizzes()
         {
             ModelState.AddModelError("GetQuizzes", "Not Implemented!");
-            return NotFound(ModelState);
+            return BadRequest(ModelState);
             //var quizzes = _quizService.GetAll().ToList();
             //return Ok(quizzes.ToApiModels());
         }
@@ -30,7 +30,7 @@ namespace QuizApp.Controllers
         public IActionResult Quizzes(int id)
         {
             ModelState.AddModelError("GetQuiz", "Not Implemented!");
-            return NotFound(ModelState);
+            return BadRequest(ModelState);
             //var quiz = _quizService.Get(id);
             //return Ok(quiz.ToApiModel());
         }

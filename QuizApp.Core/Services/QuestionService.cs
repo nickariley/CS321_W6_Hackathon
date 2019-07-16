@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using QuizApp.Core.Models;
 
 namespace QuizApp.Core.Services
@@ -15,6 +16,10 @@ namespace QuizApp.Core.Services
 
         public Question Add(Question newQuestion)
         {
+            if (newQuestion.Answers.Count(a => a.IsCorrect) != 1)
+            {
+                throw new ApplicationException("A question should have exactly one correct answer.");
+            }
             return _questionRepo.Add(newQuestion);
         }
 

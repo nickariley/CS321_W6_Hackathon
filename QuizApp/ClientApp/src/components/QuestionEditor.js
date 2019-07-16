@@ -121,6 +121,7 @@ const QuestionEditor = ({ match, isNew, history, setViewName }) => {
     const { question } = questionState;
     try {
       const savedQuestion = await QuizAPI.saveQuestion(question);
+      history.push('/questions');
     } catch (error) {
       // if (!question.id) {
       //   sampleData.questions.push(question);

@@ -29,7 +29,7 @@ export default ({ isOpen, handleClose, message }) => {
         horizontal: 'right',
       }}
       open={isOpen}
-      autoHideDuration={5000}
+      autoHideDuration={10000}
       onClose={handleClose}
     >
       <SnackbarContent
