@@ -59,10 +59,14 @@ class QuizApi {
   }
 
   static deleteQuestion(questionId) {
+    const token = TokenHelper.getToken();
     const uri = `api/questions/${questionId}`;
     const options = {
       method: 'DELETE',
-    };
+      headers: {
+        'Authorization': 'bearer ' + token.token
+      },
+  };
     return fetchAndThrow(uri, options);
   }
 

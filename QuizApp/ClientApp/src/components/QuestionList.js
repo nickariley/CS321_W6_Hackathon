@@ -75,6 +75,7 @@ const QuestionList = ({
   async function deleteQuestion(questionId) {
     try {
       const result = await QuizAPI.deleteQuestion(questionId);
+      loadQuestions();
     } catch (error) {
       console.log(error);
       setQuestionsState({

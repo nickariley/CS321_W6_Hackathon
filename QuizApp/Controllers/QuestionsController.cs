@@ -58,20 +58,20 @@ namespace QuizApp.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] QuestionModel questionModel)
         {
-            ModelState.AddModelError("UpdateQuestion", "Not Implemented!");            
-            return BadRequest(ModelState);
-            //var updatedQuestion = _questionService.Update(questionModel.ToDomainModel());
-            //return Ok(updatedQuestion.ToApiModel());
+            //ModelState.AddModelError("UpdateQuestion", "Not Implemented!");            
+            //return BadRequest(ModelState);
+            var updatedQuestion = _questionService.Update(questionModel.ToDomainModel());
+            return Ok(updatedQuestion.ToApiModel());
         }
 
         [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Remove(int id)
         {
-            ModelState.AddModelError("RemoveQuestion", "Not Implemented!");
-            return BadRequest(ModelState);
-            //_questionService.Remove(id);
-            //return Ok();
+            //ModelState.AddModelError("RemoveQuestion", "Not Implemented!");
+            //return BadRequest(ModelState);
+            _questionService.Remove(id);
+            return Ok();
         }
     }
 }
