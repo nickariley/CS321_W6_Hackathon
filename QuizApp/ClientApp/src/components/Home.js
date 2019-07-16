@@ -58,6 +58,9 @@ class Home extends React.Component {
               id: 'random',
               title: 'Random Quiz',
               description: 'This quiz contains randomly selected questions.',
+              questions: {
+                length: '5'
+              }
             },
           ]}
           component={QuizCard}

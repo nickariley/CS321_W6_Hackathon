@@ -70,6 +70,9 @@ const QuizCard = ({ item = {} }) => {
             <Grid item xs={12} sm={12} md={12}>
               <Typography>{item.description}</Typography>
             </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography>{item.questions ? `${item.questions.length} questions` : ''}</Typography>
+            </Grid>
           </Grid>
         </CardContent>
         <CardActions>
