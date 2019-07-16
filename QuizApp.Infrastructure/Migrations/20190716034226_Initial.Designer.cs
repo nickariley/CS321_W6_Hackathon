@@ -9,7 +9,7 @@ using QuizApp.Infrastructure.Data;
 namespace QuizApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190711153200_Initial")]
+    [Migration("20190716034226_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -209,26 +209,6 @@ public interface Foo
                         });
                 });
 
-            modelBuilder.Entity("QuizApp.Core.Models.QuestionTopic", b =>
-                {
-                    b.Property<int>("QuestionId");
-
-                    b.Property<int>("TopicId");
-
-                    b.HasKey("QuestionId", "TopicId");
-
-                    b.HasIndex("TopicId");
-
-                    b.ToTable("QuestionTopic");
-
-                    b.HasData(
-                        new
-                        {
-                            QuestionId = 1,
-                            TopicId = 1
-                        });
-                });
-
             modelBuilder.Entity("QuizApp.Core.Models.Quiz", b =>
                 {
                     b.Property<int>("Id")
@@ -271,25 +251,6 @@ public interface Foo
                         {
                             QuizId = 1,
                             QuestionId = 1
-                        });
-                });
-
-            modelBuilder.Entity("QuizApp.Core.Models.Topic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Topics");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Topic1"
                         });
                 });
 
@@ -395,19 +356,6 @@ public interface Foo
                     b.HasOne("QuizApp.Core.Models.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("QuizApp.Core.Models.QuestionTopic", b =>
-                {
-                    b.HasOne("QuizApp.Core.Models.Question", "Question")
-                        .WithMany("QuestionTopics")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("QuizApp.Core.Models.Topic", "Topic")
-                        .WithMany("QuestionTopics")
-                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -77,19 +77,6 @@ namespace QuizApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topics",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Topics", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -240,30 +227,6 @@ namespace QuizApp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "QuestionTopic",
-                columns: table => new
-                {
-                    QuestionId = table.Column<int>(nullable: false),
-                    TopicId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuestionTopic", x => new { x.QuestionId, x.TopicId });
-                    table.ForeignKey(
-                        name: "FK_QuestionTopic_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuestionTopic_Topics_TopicId",
-                        column: x => x.TopicId,
-                        principalTable: "Topics",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Questions",
                 columns: new[] { "Id", "Prompt", "QuestionType" },
@@ -273,11 +236,6 @@ namespace QuizApp.Infrastructure.Migrations
                 table: "Quizzes",
                 columns: new[] { "Id", "Description", "Instructions", "Title" },
                 values: new object[] { 1, "Some markdown content that describes the quiz.", "Some more markdown content that can provide instructions, tips, etc.", "A Super Tough Quiz" });
-
-            migrationBuilder.InsertData(
-                table: "Topics",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Topic1" });
 
             migrationBuilder.InsertData(
                 table: "Answer",
@@ -314,11 +272,6 @@ public interface Foo
 ]
 ```
 ", false, 1 });
-
-            migrationBuilder.InsertData(
-                table: "QuestionTopic",
-                columns: new[] { "QuestionId", "TopicId" },
-                values: new object[] { 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "QuizQuestion",
@@ -368,11 +321,6 @@ public interface Foo
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuestionTopic_TopicId",
-                table: "QuestionTopic",
-                column: "TopicId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_QuizQuestion_QuestionId",
                 table: "QuizQuestion",
                 column: "QuestionId");
@@ -399,9 +347,6 @@ public interface Foo
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "QuestionTopic");
-
-            migrationBuilder.DropTable(
                 name: "QuizQuestion");
 
             migrationBuilder.DropTable(
@@ -409,9 +354,6 @@ public interface Foo
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Topics");
 
             migrationBuilder.DropTable(
                 name: "Questions");
