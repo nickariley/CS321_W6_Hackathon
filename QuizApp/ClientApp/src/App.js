@@ -38,14 +38,22 @@ const App = ({ history }) => {
   }, []);
 
   function logIn(loginModel) {
-    return QuizAPI.login(loginModel).then((res) => {
-      TokenHelper.setToken(res);
-      setUser({
-        loggedIn: true,
-        email: loginModel.email,
+    return QuizAPI.login(loginModel)
+      .then((res) => {
+        TokenHelper.setToken(res);
+        setUser({
+          loggedIn: true,
+          email: loginModel.email,
+        });
+        return user;
+      })
+      .catch((error) => {
+        setUser({
+          loggedIn: false,
+          email: '',
+          error,
+        });
       });
-      return user;
-    });
   }
 
   function logOut() {
@@ -57,9 +65,17 @@ const App = ({ history }) => {
   }
 
   function register(registrationModel) {
-    QuizAPI.register(registrationModel).then((res) => {
-      history.push('/login');
-    });
+    return QuizAPI.register(registrationModel)
+      .then((res) => {
+        history.push('/login');
+      })
+      .catch((error) => {
+        setUser({
+          loggedIn: false,
+          email: '',
+          error,
+        });
+      });
   }
 
   return (
@@ -72,7 +88,7 @@ const App = ({ history }) => {
       <Route
         exact
         path="/register"
-        component={() => <Register register={register} />}
+        component={() => <Register user={user} register={register} />}
       />
       <Route exact path="/take-quiz/:quizId" component={TakeQuiz} />
       <Route

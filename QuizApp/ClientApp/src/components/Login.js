@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -52,7 +53,7 @@ const Login = ({ user, logIn, history }) => {
   }
 
   if (user.loggedIn) {
-    return <Redirect to="/"/>
+    return <Redirect to="/" />;
   }
 
   return (
@@ -65,63 +66,62 @@ const Login = ({ user, logIn, history }) => {
           Sign in
         </Typography>
         {/* <form className={classes.form} noValidate onSubmit={(e) => e.preventDefault()} > */}
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={loginInfo.email}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={loginInfo.password}
-            onChange={handleChange}
-          />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
-          <Button
-            // type="submit"
-            type="button"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleLogin}
-          >
-            Sign In
-          </Button>
-          <Grid container justify="center">
-            {/* <Grid item xs>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          value={loginInfo.email}
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+          value={loginInfo.password}
+          onChange={handleChange}
+        />
+        {user.error ? (
+          <FormHelperText error>{user.error.message}</FormHelperText>
+        ) : null}
+        <Button
+          // type="submit"
+          type="button"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={handleLogin}
+        >
+          Sign In
+        </Button>
+        <Grid container justify="center">
+          {/* <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid> */}
-            <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+          <Grid item>
+            <Link href="/register" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
           </Grid>
+        </Grid>
         {/* </form> */}
       </div>
     </Container>
   );
-}
+};
 
 export default withRouter(Login);

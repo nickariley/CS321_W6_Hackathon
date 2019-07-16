@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -61,15 +62,17 @@ const Header = ({ viewName, user, logOut }) => {
           Questions
         </Button>
         {user.loggedIn ? (
-          <Button
-            className={classes.button}
-            color="inherit"
-            component={Link}
-            to="/login"
-            onClick={logOut}
-          >
-            Sign Out
-          </Button>
+          <Tooltip title={user.email}>
+            <Button
+              className={classes.button}
+              color="inherit"
+              component={Link}
+              to="/login"
+              onClick={logOut}
+            >
+              Sign Out
+            </Button>
+          </Tooltip>
         ) : (
           <Button
             className={classes.button}
@@ -86,4 +89,3 @@ const Header = ({ viewName, user, logOut }) => {
 };
 
 export default Header;
-
