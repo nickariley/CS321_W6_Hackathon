@@ -13,7 +13,7 @@ Review the requirements and instructions given below. Create Trello tasks and di
 
 ## Collaboration
 
-ONE person from the group will fork this repo from ACA. That person will give everyone else permissions as a "collaborator". From that point on, you will all clone THE ONE repo and your changes will be in the form of __pull requests__. For each change/ticket you will create a new branch and work from there. Remember to always pull the latest from the master branch before you being on a new task.
+ONE person from the group will fork this repo from ACA. That person will give everyone else permissions as a "collaborator". From that point on, you will all clone THE ONE repo and your changes will be in the form of __pull requests__. For each change/ticket you will create a new branch and work from there. Remember to always pull the latest from the master branch before you begin a new task.
 
 _Adding a collaborator_
 <br />
@@ -129,7 +129,7 @@ The following tasks need to be completed.
 **Note:** Many of the tasks are intentionally vague, but nearly everything in this project is work you've done before. If
 there is anything new, it will be called out in the instructions or in TODOs in the code.
 
-1. Implement the domain model classes in the Core project. The classes already exist, but you must fill in the correct properties according to the design shown above. Tne names and types are important so the model will match up with the existing database.
+1. Implement the domain model classes in the Core project. The classes already exist, but you must fill in the correct properties according to the design shown above. The names and types are important so the model will match up with the existing database.
 
 1. In the Infrastructure project, implement a QuizRespository based on the given IQuizRepository interface.
    1. The Get() and GetAll() methods should Include() QuizQuestions AND ThenInclude() both Questions and Answers.
