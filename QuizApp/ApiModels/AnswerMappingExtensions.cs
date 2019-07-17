@@ -11,13 +11,9 @@ namespace QuizApp.ApiModels
 
 		public static AnswerModel ToApiModel(this Answer item)
 		{
-			return new AnswerModel
+            // TODO: map domain properties to equivalent ApiModel properties
+            return new AnswerModel
 			{
-                // TODO: map domain properties to equivalent ApiModel properties
-				Id = item.Id,
-                QuestionId = item.QuestionId,
-                Content = item.Content,
-                IsCorrect = item.IsCorrect,                
 			};
 		}
 
@@ -26,10 +22,6 @@ namespace QuizApp.ApiModels
             // TODO: map ApiModel properties to equivalen domain properties
 			return new Answer
 			{
-				Id = item.Id,
-                Content = item.Content,
-                QuestionId = item.QuestionId,
-                IsCorrect = item.IsCorrect
 			};
 		}
 

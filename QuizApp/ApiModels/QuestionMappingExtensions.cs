@@ -18,10 +18,6 @@ namespace QuizApp.ApiModels
             // Answers
             return new QuestionModel
             {
-                Id = item.Id,
-                QuestionType = item.QuestionType,
-                Prompt = item.Prompt,
-                Answers = item.Answers?.ToApiModels().ToList()
                 // HINT: Answers = item.Answers?.ToApiModels().ToList()
             };
         }
@@ -35,10 +31,6 @@ namespace QuizApp.ApiModels
             // Answers
 			return new Question
 			{
-				Id = item.Id,
-                QuestionType = item.QuestionType,
-                Prompt = item.Prompt,
-                Answers = item.Answers?.ToDomainModels().ToList(),
                 // HINT: Answers is similar to above, but uses Domain Models
                 // HINT: you can ignore QuizQuestions
 			};

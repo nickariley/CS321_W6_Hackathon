@@ -13,65 +13,56 @@ namespace QuizApp.Controllers
 
         private readonly IQuestionService _questionService;
 
-        public QuestionsController(IQuestionService questionService)
-        {
-            _questionService = questionService;
-        }
+        // TODO: create a constructor and inject the question service
 
+        // TODO: anonymous users can still call this action
         [HttpGet()]
         public IActionResult GetAll()
         {
-            //ModelState.AddModelError("GetQuestions", "Not Implemented!");
-            //return BadRequest(ModelState);
-            var questions = _questionService.GetAll().ToList();
-            return Ok(questions.ToApiModels());
+            // TODO: replace the following code with a complete implementation
+            // that will return all questions
+            ModelState.AddModelError("GetQuestions", "Not Implemented!");
+            return BadRequest(ModelState);
         }
 
+        // TODO: anonymous users can still call this action
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get()
         {
-            //ModelState.AddModelError("GetQuestion", "Not Implemented!");
-            //return BadRequest(ModelState);
-            var question = _questionService.Get(id);
-            return Ok(question.ToApiModel());
+            // TODO: replace the following code with a complete implementation
+            // that will return a single question based on id
+            ModelState.AddModelError("GetQuestion", "Not Implemented!");
+            return BadRequest(ModelState);
         }
 
-        [Authorize]
+        // TODO: only authenticated users can call this action
         [HttpPost]
-        public IActionResult Add([FromBody] QuestionModel questionModel)
+        public IActionResult Add()
         {
-            //ModelState.AddModelError("AddQuestion", "Not Implemented!");
-            //return NotFound(ModelState);
-            try
-            {
-                var savedQuestion = _questionService.Add(questionModel.ToDomainModel());
-                return CreatedAtAction("Get", new { Id = savedQuestion.Id }, savedQuestion.ToApiModel());
-            }
-            catch (System.Exception ex)
-            {
-                ModelState.AddModelError("AddQuestion", ex.Message);
-                return BadRequest(ModelState);
-            }
+            // TODO: replace the following code with a complete implementation
+            // that will add a new question 
+            ModelState.AddModelError("AddQuestion", "Not Implemented!");
+            return NotFound(ModelState);
         }
 
-        [Authorize]
+        // TODO: only authenticated users can call this action
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] QuestionModel questionModel)
         {
-            //ModelState.AddModelError("UpdateQuestion", "Not Implemented!");            
-            //return BadRequest(ModelState);
-            var updatedQuestion = _questionService.Update(questionModel.ToDomainModel());
-            return Ok(updatedQuestion.ToApiModel());
+            // TODO: replace the following code with a complete implementation
+            // that will update a question
+            ModelState.AddModelError("UpdateQuestion", "Not Implemented!");
+            return BadRequest(ModelState);
         }
 
-        [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult Remove(int id)
+        // TODO: only authenticated users can call this action
+        [HttpDelete]
+        public IActionResult Remove()
         {
-            //ModelState.AddModelError("RemoveQuestion", "Not Implemented!");
-            //return BadRequest(ModelState);
-            _questionService.Remove(id);
-            return Ok();
+            // TODO: replace the following code with a complete implementation
+            // that will delete a question
+            ModelState.AddModelError("RemoveQuestion", "Not Implemented!");
+            return BadRequest(ModelState);
         }
     }
 }

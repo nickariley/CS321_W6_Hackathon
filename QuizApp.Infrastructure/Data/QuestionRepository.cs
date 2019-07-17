@@ -7,54 +7,46 @@ using QuizApp.Core.Services;
 
 namespace QuizApp.Infrastructure.Data
 {
-    public class QuestionRepository : Repository<Question, int>, IQuestionRepository
+    public class QuestionRepository 
     {
-        public QuestionRepository(AppDbContext dbContext) : base(dbContext)
+        // TODO: inherit and implement the IQuestionRepository interface
+
+        public QuestionRepository() 
         {
+            // TODO: inject and store AppDbContext
         }
 
-        public override Question Get(int id)
-        {
-            return Entities
-                .Include(q => q.Answers)
-                .SingleOrDefault(q => q.Id == id);
-        }
+        // TODO: The Update() method needs some special logic that you have not seen before.
+        // It will update the Question AND also update all of the related Answers. Here is
+        // the implementation for Update:
+        //public Question Update(Question updatedItem)
+        //{
+        //    // retrieve the existing question
+        //    var existingItem = this.Get(updatedItem.Id);
+        //    if (existingItem == null) return null;
 
-        public override IEnumerable<Question> GetAll()
-        {
-            return Entities
-                .Include(q => q.Answers)
-                .ToList();
-        }
+        //    // copy updated property values into the existing question
+        //    _dbContext.Entry(existingItem)
+        //       .CurrentValues
+        //       .SetValues(updatedItem);
 
-        public override Question Update(Question updatedItem)
-        {
-            // retrieve the existing question
-            var existingItem = this.Get(updatedItem.Id);
-            if (existingItem == null) return null;
+        //    // loop thru all of the answers in the updated question
+        //    foreach (var updatedAnswer in updatedItem.Answers)
+        //    {
+        //        // find the existing answer that corresponds to the updated answer
+        //        var existingAnswer = existingItem.Answers
+        //        .Where(a => a.Id == updatedAnswer.Id)
+        //        .SingleOrDefault();
+        //        // update existing answer from updated answer
+        //        _dbContext.Entry(existingAnswer)
+        //            .CurrentValues
+        //            .SetValues(updatedAnswer);
+        //    }
 
-            // copy updated property values into the existing question
-            _dbContext.Entry(existingItem)
-               .CurrentValues
-               .SetValues(updatedItem);
-
-            // loop thru all of the answers in the updated question
-            foreach(var updatedAnswer in updatedItem.Answers)
-            {
-                // find the existing answer that corresponds to the updated answer
-                var existingAnswer = existingItem.Answers
-                .Where(a => a.Id == updatedAnswer.Id)
-                .SingleOrDefault();
-                // update existing answer from updated answer
-                _dbContext.Entry(existingAnswer)
-                    .CurrentValues
-                    .SetValues(updatedAnswer);
-            }
-
-            // save all the changes
-            _dbSet.Update(existingItem);
-            _dbContext.SaveChanges();
-            return existingItem;
-        }
+        //    // save all the changes
+        //    _dbContext.Questions.Update(existingItem);
+        //    _dbContext.SaveChanges();
+        //    return existingItem;
+        //}
     }
 }

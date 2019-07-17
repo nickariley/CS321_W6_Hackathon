@@ -7,28 +7,14 @@ using QuizApp.Core.Services;
 
 namespace QuizApp.Infrastructure.Data
 {
-    public class QuizRepository : Repository<Quiz, int>, IQuizRepository
+    public class QuizRepository 
     {
-        public QuizRepository(AppDbContext dbContext) : base(dbContext)
+        // TODO: inherit and implement the IQuizRepository interface
+
+        public QuizRepository()
         {
+            // TODO: inject and store AppDbContext
         }
 
-        public override IEnumerable<Quiz> GetAll()
-        {
-            return Entities
-                .Include(q => q.QuizQuestions)
-                    .ThenInclude(qq => qq.Question)
-                    .ThenInclude(q => q.Answers)
-                .ToList();
-        }
-
-        public override Quiz Get(int id)
-        {
-            return Entities
-                .Include(q => q.QuizQuestions)
-                    .ThenInclude(qq => qq.Question)
-                    .ThenInclude(q => q.Answers)
-                .SingleOrDefault(q => q.Id == id);
-        }
     }
 }

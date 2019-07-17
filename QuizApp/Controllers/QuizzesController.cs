@@ -12,39 +12,28 @@ namespace QuizApp.Controllers
 
         private readonly IQuizService _quizService;
 
-        public QuizzesController(IQuizService quizService)
-        {
-            _quizService = quizService;
-        }
+        // TODO: create a constructor and inject quiz service
 
         [HttpGet()]
         public IActionResult GetQuizzes()
         {
-            //ModelState.AddModelError("GetQuizzes", "Not Implemented!");
-            //return BadRequest(ModelState);
-            var quizzes = _quizService.GetAll().ToList();
-            return Ok(quizzes.ToApiModels());
+            // TODO: replace the following code with a complete implementation
+            // that will return quizzes from the database
+            ModelState.AddModelError("GetQuizzes", "Not Implemented!");
+            return BadRequest(ModelState);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetQuiz(int id)
         {
-            //ModelState.AddModelError("GetQuiz", "Not Implemented!");
-            //return BadRequest(ModelState);
-            var quiz = _quizService.Get(id);
-            return Ok(quiz.ToApiModel());
+            // TODO: replace the following code with a complete implementation
+            // that will return a single quiz
+            ModelState.AddModelError("GetQuiz", "Not Implemented!");
+            return BadRequest(ModelState);
         }
 
         // OPTIONAL - PUSH YOURSELF FURTHER
         // Implement a controller action that will return
         // a quiz containing five randomly selected questions.
-        [HttpGet("random")]
-        public IActionResult GetRandomQuiz(int id)
-        {
-            //ModelState.AddModelError("GetRandomQuiz", "Not Implemented!");
-            //return BadRequest(ModelState);
-            var quiz = _quizService.GetRandomQuiz();
-            return Ok(quiz.ToApiModel());
-        }
     }
 }

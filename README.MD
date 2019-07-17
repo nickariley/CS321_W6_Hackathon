@@ -196,7 +196,7 @@ there is anything new, it will be called out in the instructions or in TODOs in 
    1. Anyone should be able to retrieve Quizzes, even if they're not logged in.
    > NOTE: Only two GET actions are needed for this project. Adding/updating/deleting quizzes is not supported.
 
-1. In the main project. finish the implementation of QuestionsController. Replace the Not Implemented validation errors with the proper implementation.
+1. In the main project, finish the implementation of QuestionsController. Replace the Not Implemented validation errors with the proper implementation.
    1. Add() and Update() should catch exceptions and return ModelState errors if exceptions occur.
    1. The POST, PUT, and DELETE actions should only be accessible by authenticated users.
    1. The GET actions can be accessible to anyone, even if they're not logged in.

@@ -27,14 +27,9 @@ namespace QuizApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: register AppDbContext
             services.AddDbContext<AppDbContext>();
 
             // TODO: register repositories and services
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<IQuestionService, QuestionService>();
-            services.AddScoped<IQuizRepository, QuizRepository>();
-            services.AddScoped<IQuizService, QuizService>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
