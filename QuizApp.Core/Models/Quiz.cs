@@ -6,11 +6,11 @@ namespace QuizApp.Core.Models
 
     public class Quiz
     {
-        int Id { get; set; }
-        string Title { get; set; }
-        string Description { get; set; }
-        string Instruction { get; set; }
-        ICollection<QuizQuestion> QuizQuestions { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Instruction { get; set; }
+        public ICollection<QuizQuestion> QuizQuestions { get; set; }
     }
 }
                                                                                                                                                                                                                                                                                                                            
