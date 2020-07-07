@@ -50,7 +50,7 @@ namespace QuizApp.Infrastructure.Data
 			var currentQuiz = this.Get(updateQuiz.Id);
 			if (currentQuiz == null) return null;
 
-			//updates current quiz
+			//updates the current quiz
 			_appDbContext.Entry(currentQuiz).CurrentValues.SetValues(updateQuiz);
 			_appDbContext.Quizzes.Update(updateQuiz);
 			_appDbContext.SaveChanges();
