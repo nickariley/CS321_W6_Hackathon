@@ -29,8 +29,6 @@ namespace QuizApp.ApiModels
 				Title = quiz.Title,
 				Description = quiz.Description,
 				Instructions = quiz.Instruction,
-
-
 			};
 		}
 
