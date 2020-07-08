@@ -32,6 +32,7 @@ namespace QuizApp.Core.Services
             }
         }
 
+
         public Question Get(int id)
         {
             return _questionRepo.Get(id);
