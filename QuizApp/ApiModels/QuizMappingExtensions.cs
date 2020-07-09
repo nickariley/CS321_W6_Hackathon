@@ -29,7 +29,11 @@ namespace QuizApp.ApiModels
 				Title = quiz.Title,
 				Description = quiz.Description,
 				Instructions = quiz.Instructions,
-			};
+                Questions = quiz.QuizQuestions?
+                    .Select(qq => qq.Question)
+                    .ToApiModels()
+                    .ToList()
+            };
 		}
 
 		public static Quiz ToDomainModel(this QuizModel quizModel)

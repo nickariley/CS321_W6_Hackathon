@@ -25,7 +25,7 @@ namespace QuizApp.Infrastructure.Data
 
 		public Quiz Get(int id)
 		{
-			Quiz quiz = _appDbContext.Quizzes.Include(q => q.QuizQuestions).FirstOrDefault(q => q.Id == id);
+			Quiz quiz = _appDbContext.Quizzes.Include(q => q.QuizQuestions).ThenInclude(q => q.Question).ThenInclude(q=>q.Answers).FirstOrDefault(q => q.Id == id);
 			if (quiz != null)
 			{
 				return quiz;
@@ -35,7 +35,8 @@ namespace QuizApp.Infrastructure.Data
 
 		public IEnumerable<Quiz> GetAll()
 		{
-			return _appDbContext.Quizzes.Include(q => q.QuizQuestions).ToList();
+			var list = _appDbContext.Quizzes.Include(q => q.QuizQuestions).ThenInclude(q => q.Question).ThenInclude(q=>q.Answers).ToList();
+			return list;
 		}
 
 		public void Remove(Quiz entity)

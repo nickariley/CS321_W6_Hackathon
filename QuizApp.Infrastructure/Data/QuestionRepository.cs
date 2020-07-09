@@ -37,7 +37,8 @@ namespace QuizApp.Infrastructure.Data
 
         public IEnumerable<Question> GetAll()
         {
-            return _dbContext.Questions.Include(x => x.Answers).ToList();
+            var list = _dbContext.Questions.Include(x => x.Answers).ToList();
+            return list;
         }
 
         
