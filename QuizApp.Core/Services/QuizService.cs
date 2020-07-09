@@ -10,6 +10,10 @@ namespace QuizApp.Core.Services
         // TODO: inherit and implement the IQuizService interface
         private readonly IQuizRepository _quizRepository;
 
+        public QuizService(IQuizRepository quizRepository)
+        {
+            _quizRepository = quizRepository;
+        }
         // PUSH YOURSELF FURTHER
         // TIPS:
         //    * You'll need the QuestionRepository in order to get the list of questions to randomly choose from. How do you inject it?
