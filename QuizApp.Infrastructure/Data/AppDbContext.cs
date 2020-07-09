@@ -24,7 +24,8 @@ namespace QuizApp.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<QuizQuestion>()
+            .HasKey(qt => new { qt.QuizId, qt.QuestionId });
         }
-
     }
 }
