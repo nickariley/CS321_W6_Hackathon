@@ -18,7 +18,7 @@ namespace QuizApp.Infrastructure.Data
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlite("Data Source=../QuizApp.Infrastructure/quizapp.db");
+            optionsBuilder.UseSqlite("Data Source=quizapp.db");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
