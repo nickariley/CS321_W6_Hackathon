@@ -28,7 +28,7 @@ namespace QuizApp.ApiModels
 				Id = quiz.Id,
 				Title = quiz.Title,
 				Description = quiz.Description,
-				Instructions = quiz.Instruction,
+				Instructions = quiz.Instructions,
 			};
 		}
 
@@ -42,7 +42,7 @@ namespace QuizApp.ApiModels
 				Id = quizModel.Id,
 				Title = quizModel.Title,
 				Description = quizModel.Description,
-				Instruction = quizModel.Instructions,
+				Instructions = quizModel.Instructions,
 			};
 		}
 
