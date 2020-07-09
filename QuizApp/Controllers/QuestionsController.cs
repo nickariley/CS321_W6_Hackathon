@@ -1,48 +1,73 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.ApiModels;
+using QuizApp.Core.Models;
 using QuizApp.Core.Services;
 
 namespace QuizApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class QuestionsController : Controller
     {
 
         private readonly IQuestionService _questionService;
 
-        // TODO: create a constructor and inject the question service
+        public QuestionsController(IQuestionService questionService)
+        {
+            _questionService = questionService;
+        }
 
-        // TODO: anonymous users can still call this action
+        [AllowAnonymous]
         [HttpGet()]
         public IActionResult GetAll()
         {
-            // TODO: replace the following code with a complete implementation
-            // that will return all questions
-            ModelState.AddModelError("GetQuestions", "Not Implemented!");
-            return BadRequest(ModelState);
+            try
+            {
+                return Ok(_questionService.GetAll().ToApiModels());
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("GetQuestions", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
 
-        // TODO: anonymous users can still call this action
+        [AllowAnonymous]
         [HttpGet("{id}")]
-        public IActionResult Get()
+        public IActionResult Get(int id)
         {
-            // TODO: replace the following code with a complete implementation
-            // that will return a single question based on id
-            ModelState.AddModelError("GetQuestion", "Not Implemented!");
-            return BadRequest(ModelState);
+            try
+            {
+                var question = _questionService.Get(id).ToApiModel();
+                if (question == null) return NotFound();
+                return Ok(question);
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("GetQuestion", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
 
         // TODO: only authenticated users can call this action
         [HttpPost]
-        public IActionResult Add()
+        public IActionResult Add([FromBody]QuestionModel newQuestion)
         {
             // TODO: replace the following code with a complete implementation
-            // that will add a new question 
-            ModelState.AddModelError("AddQuestion", "Not Implemented!");
-            return NotFound(ModelState);
+            // that will add a new question
+            try
+            {
+                return Ok(_questionService.Add(newQuestion.ToDomainModel()));
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("AddQuestion", ex.Message);
+                return NotFound(ModelState);
+            }
         }
 
         // TODO: only authenticated users can call this action
@@ -51,18 +76,33 @@ namespace QuizApp.Controllers
         {
             // TODO: replace the following code with a complete implementation
             // that will update a question
-            ModelState.AddModelError("UpdateQuestion", "Not Implemented!");
-            return BadRequest(ModelState);
+            try
+            {
+                return Ok(_questionService.Update(questionModel.ToDomainModel()));
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("UpdateQuestion", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
 
         // TODO: only authenticated users can call this action
         [HttpDelete]
-        public IActionResult Remove()
+        public IActionResult Remove(int id)
         {
             // TODO: replace the following code with a complete implementation
             // that will delete a question
-            ModelState.AddModelError("RemoveQuestion", "Not Implemented!");
-            return BadRequest(ModelState);
+            try
+            {
+                _questionService.Remove(id);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("RemoveQuestion", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
     }
 }
